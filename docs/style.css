@@ -56,12 +56,12 @@ h3 {
   text-transform: uppercase;
   color: darkslategrey;
 }
-h3:before {
+/* h3:before {
   content: "[";
 }
 h3:after {
   content: "]";
-}
+} */
 
 h4,
 h5,
@@ -71,12 +71,12 @@ h6 {
   color: green;
 }
 
-h4:before {
+/* h4:before {
   content: "*";
 }
 h4:after {
   content: "*";
-}
+} */
 
 .table-of-contents {
   border-left: 1px solid black;
