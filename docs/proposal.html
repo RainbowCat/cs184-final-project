@@ -8,13 +8,19 @@
   </head>
 
   <body>
+    <nav>
+      <a href="index.html">Home</a> |
+      <a href="proposal.html">Proposal</a> |
+      <a href="report.html">Report</a>
+    </nav>
+    <!-- end navbar -->
+
     <header>
       <h1>CS 184: Computer Graphics and Imaging, Spring 2021</h1>
       <h1>Final Project: Weather Simulation</h1>
       <h2>Ankit Agarwal, April Sin, Austin Kao, Xinyun Cao</h2>
     </header>
     <!-- END PAGE HEADER -->
-
 
     <br class="spacer" />
 
@@ -39,13 +45,15 @@
         <h3>Summary</h3>
         <p>Working on top of <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">this</a>
           cloud simulation done by <a href="https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ" target="_blank"
-            rel="noopener">Sebastian Lague</a> with Unity, we will add simulations of lightning, rain, and god rays
+            rel="noopener">Sebastian Lague</a> with Unity, we will add simulations of lightning,
+          rain, and god rays
           through atmospheric rendering.</p>
 
         <h3>Problem Description</h3>
         <p>We want to develop a realistic simulation of different weathers. Problems we are trying to solve
           include: how to simulate lightning, atmospheric volumetric light
-          scattering (god rays), and how to make the clouds roll naturally. To implement these effects, we are going to
+          scattering (god rays), and how to make the clouds roll naturally. To implement these effects, we are going
+          to
           refer to other tutorials, articles, and
           research papers.</p>
       </div><!-- END OVERVIEW -->
@@ -54,7 +62,8 @@
         <h2>Goals and Deliverables</h2>
         <h3>Baseline Deliverables</h3>
         <ul>
-          <li>Currently we already have a real-time cloud simulator in Unity. Our goal is to add real-time lightning to
+          <li>Currently we already have a real-time cloud simulator in Unity. Our goal is to add real-time lightning
+            to
             the project. We will deliver an interactive real-time rendering that simulates
             lightning in Unity. In
             particular, we will make a video that demonstrates this happening.</li>
@@ -65,7 +74,8 @@
             </div>
           </div>
           <li>To simulate a lightning storm, we will have lightnings which start from
-            clouds and end on the ground. The lightnings should have a tree-like structure and make its way from a point
+            clouds and end on the ground. The lightnings should have a tree-like structure and make its way from a
+            point
             in the sky to a point on the terrain below.</li>
         </ul>
         <h5>Performance Metrics</h5>
@@ -90,7 +100,8 @@
           <li>Non-random spawning of lightning in places of high cloud density with terrain sampling.</li>
           <li>Atmospheric rendering of rain during storms</li>
           <li>God rays generation after the a storm ends has ended.</li>
-          <li>[Stretch Goal] Clouds that move according to fluid dynamics and roll along terrain and in the sky rather
+          <li>[Stretch Goal] Clouds that move according to fluid dynamics and roll along terrain and in the sky
+            rather
             than just move and shift around.</li>
         </ul>
 
@@ -105,12 +116,14 @@
         <ul>
           <li>Proposal write up</li>
           <li>Familiarize with unity</li>
-          <li>Get <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">simulation</a> working in
+          <li>Get <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">simulation</a> working
+            in
             Unity</li>
         </ul>
 
         <h4>Week 1: Apr 12 - Apr 18</h4>
-        <p>GOAL: Be able to generate a smooth simulation / video <strong>involving clouds only</strong> that goes from
+        <p>GOAL: Be able to generate a smooth simulation / video <strong>involving clouds only</strong> that goes
+          from
           stormy day to sunny day</p>
         <ul>
           <li>Familiarize ourselves with unity</li>
@@ -137,7 +150,8 @@
         <h4>Week 2: Apr 19 - Apr 25</h4>
         <p>GOAL: Make a lightning independently</p>
         <ul>
-          <li>Create a model of lightning that exists outside of the simulation and tweak parameters to ensure realistic
+          <li>Create a model of lightning that exists outside of the simulation and tweak parameters to ensure
+            realistic
             branching and realistic color.</li>
           <li>Follow implementations in <a href="http://gamma.cs.unc.edu/LIGHTNING/lightning.pdf" target="_blank"
               rel="noopener">Physically Based Animation and Rendering of Lightning</a> and <a
@@ -186,9 +200,11 @@
 
         <h3>Papers & Articles</h3>
         <ol>
-          <li><a href="https://dl.acm.org/doi/10.1145/325165.325248" target="_blank" rel="noopener">Visual simulation of
+          <li><a href="https://dl.acm.org/doi/10.1145/325165.325248" target="_blank" rel="noopener">Visual
+              simulation of
               clouds | ACM SIGGRAPH Computer Graphics</a></li>
-          <li><a href="http://gamma.cs.unc.edu/LIGHTNING/lightning.pdf" target="_blank" rel="noopener">Physically Based
+          <li><a href="http://gamma.cs.unc.edu/LIGHTNING/lightning.pdf" target="_blank" rel="noopener">Physically
+              Based
               Animation and Rendering of Lightning</a></li>
           <li><a href="http://gamma.cs.unc.edu/FAST_LIGHTNING/lightning_tvcg_2007.pdf" target="_blank"
               rel="noopener">Fast
