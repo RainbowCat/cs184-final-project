@@ -47,7 +47,13 @@ h1,
 h2 {
   text-align: center;
 }
-.content h2 {
+
+header h1,
+header h2 {
+  text-decoration: none;
+}
+
+h2 {
   text-decoration: underline;
 }
 
@@ -79,6 +85,7 @@ h4:after {
 } */
 
 .table-of-contents {
+  margin-left: 50px;
   border-left: 1px solid black;
 }
 

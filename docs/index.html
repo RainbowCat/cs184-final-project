@@ -12,12 +12,12 @@
       <h1>CS 184: Computer Graphics and Imaging, Spring 2021</h1>
       <h1>Final Project: Weather Simulation</h1>
       <h2>Ankit Agarwal, April Sin, Austin Kao, Xinyun Cao</h2>
+
       <div class="table-of-contents">
         <ul>
-          <li><a href="#overview">Overview</a></li>
-          <li><a href="#deliverables">Goals and Deliverables</a></li>
-          <li><a href="#schedule">Schedule</a></li>
-          <li><a href="#resources">Resources</a></li>
+          <li><a href="#overview">Project Overview</a></li>
+          <li><a href="proposal.html">Proposal</a></li>
+          <li><a href="report.html">Report</a></li>
         </ul>
       </div>
       <!-- end table of contents -->
@@ -30,174 +30,10 @@
     <div class="content">
 
       <div class="section" id="overview">
-        <h1>Project Overview</h1>
-
-        <h3>Summary</h3>
-        <p>Working on top of <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">this</a>
-          cloud simulation done by <a href="https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ" target="_blank"
-            rel="noopener">Sebastian Lague</a> with Unity, we will add simulations of lightning, rain, and god rays
-          through atmospheric rendering.</p>
-
-        <h3>Problem Description</h3>
-        <p>We want to develop a realistic simulation of different weathers. Problems we are trying to solve
-          include: how to simulate lightning, atmospheric volumetric light
-          scattering (god rays), and how to make the clouds roll naturally. To implement these effects, we are going to
-          refer to other tutorials, articles, and
-          research papers.</p>
+        <h2>Overview</h2>
+        <p>TODO</p>
       </div><!-- END OVERVIEW -->
 
-      <div class="section" id="deliverables">
-        <h1>Goals and Deliverables</h1>
-        <h3>Baseline Deliverables</h3>
-        <ul>
-          <li>Currently we already have a real-time cloud simulator in Unity. Our goal is to add real-time lightning to
-            the project. We will deliver an interactive real-time rendering that simulates
-            lightning in Unity. In
-            particular, we will make a video that demonstrates this happening.</li>
-          <div class="grid">
-            <div class="image">
-              <img src="https://ghrc.nsstc.nasa.gov/home/sites/default/files/fh4471/image01_lightningcover.png" />
-              <figcaption>lightning</figcaption>
-            </div>
-          </div>
-          <li>To simulate a lightning storm, we will have lightnings which start from
-            clouds and end on the ground. The lightnings should have a tree-like structure and make its way from a point
-            in the sky to a point on the terrain below.</li>
-        </ul>
-        <h5>Performance Metrics</h5>
-        <ul>
-          <li>How realistic is the lightning color compared to real images</li>
-          <li>How well does the lightning branch out relative to actual lightning</li>
-          <li>Frames Per Seconds in Unity on NVIDIA GForce GTX 1660 (Best graphics card of our group)</li>
-        </ul>
-
-        <h3>Aspirational Deliverables</h3>
-        <div class="grid">
-          <div class="image">
-            <img src="https://i1.sndcdn.com/artworks-omAMcxX9DERFHycM-OUiQzQ-t500x500.jpg" />
-            <figcaption>rain and lightning during a storm</figcaption>
-          </div>
-          <div class="image">
-            <img src="https://qph.fs.quoracdn.net/main-qimg-42e57d7eed17d447c7a07e883ba110ca.webp" />
-            <figcaption>god rays through clouds</figcaption>
-          </div>
-        </div>
-        <ul>
-          <li>Non-random spawning of lightning in places of high cloud density with terrain sampling.</li>
-          <li>Atmospheric rendering of rain during storms</li>
-          <li>God rays generation after the a storm ends has ended.</li>
-          <li>[Stretch Goal] Clouds that move according to fluid dynamics and roll along terrain and in the sky rather
-            than just move and shift around.</li>
-        </ul>
-
-      </div>
-      <!-- End goals & deliverables -->
-
-      <div class="section" id="schedule">
-        <h1> Schedule</h1>
-
-        <h4>Week 0: Apr 5 - Apr 11</h4>
-        <p>GOAL: finish proposal, familiarize with unity</p>
-        <ul>
-          <li>Proposal write up</li>
-          <li>Familiarize with unity</li>
-          <li>Get <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">simulation</a> working in
-            Unity</li>
-        </ul>
-
-        <h4>Week 1: Apr 12 - Apr 18</h4>
-        <p>GOAL: Be able to generate a smooth simulation / video <strong>involving clouds only</strong> that goes from
-          stormy day to sunny day</p>
-        <ul>
-          <li>Familiarize ourselves with unity</li>
-          <li>Tweak existing cloud models to create a storm-like setting of clouds.</li>
-          <ul>
-            <li>Get fixed parameter sets for clouds in different weather</li>
-            <ul>
-              <li>Weather sets</li>
-              <ul>
-                <li>Stormy day</li>
-                <li>Rainy day</li>
-                <li>Sunny</li>
-              </ul>
-              <li>Params</li>
-              <ul>
-                <li>Color</li>
-                <li>Density</li>
-                <li>Smoothness</li>
-              </ul>
-            </ul>
-          </ul>
-        </ul>
-
-        <h4>Week 2: Apr 19 - Apr 25</h4>
-        <p>GOAL: Make a lightning independently</p>
-        <ul>
-          <li>Create a model of lightning that exists outside of the simulation and tweak parameters to ensure realistic
-            branching and realistic color.</li>
-          <li>Follow implementations in <a href="http://gamma.cs.unc.edu/LIGHTNING/lightning.pdf" target="_blank"
-              rel="noopener">Physically Based Animation and Rendering of Lightning</a> and <a
-              href="http://gamma.cs.unc.edu/FAST_LIGHTNING/lightning_tvcg_2007.pdf" target="_blank" rel="noopener">Fast
-              Lightning Rendering</a>.</li>
-          <li>Add random spawning of lightning in the scene</li>
-        </ul>
-
-        <h4>Week 3: Apr 26 - May 2</h4>
-        <p>GOAL: Add lightning to stormy days</p>
-        <ul>
-          <li>Research on how real lightnings are formed</li>
-          <ul>
-            <li>What global weather conditions are required?</li>
-            <ul>
-              <li>E.g. humidity</li>
-            </ul>
-            <li>What specific conditions are required?</li>
-            <ul>
-              <li>E.g. cloud density</li>
-            </ul>
-          </ul>
-        </ul>
-        <ul>
-          <li>Spawn lightning according to realistic parameters researched</li>
-        </ul>
-
-        <h4>Week 4: May 3 - May 9</h4>
-        <p>GOAL: Add rain to our real-time rendering</p>
-        <ul>
-          <li>If there is time remaining, implement rain.</li>
-        </ul>
-
-      </div>
-      <!-- end schedule -->
-
-      <div class="section" id="resources">
-        <h1>Resources</h1>
-        
-        <h3>Hardware & Software</h3>
-        <ul>
-          <li>Computing Platform: Windows and Mac</li>
-          <li>Hardware: GPU with NVIDIA GForce GTX 1660 (Best graphics card of our group)</li>
-          <li>Software: Unity, Three.js</li>
-        </ul>
-
-        <h3>Papers & Articles</h3>
-        <ol>
-          <li><a href="https://dl.acm.org/doi/10.1145/325165.325248" target="_blank" rel="noopener">Visual simulation of
-              clouds | ACM SIGGRAPH Computer Graphics</a></li>
-          <li><a href="http://gamma.cs.unc.edu/LIGHTNING/lightning.pdf" target="_blank" rel="noopener">Physically Based
-              Animation and Rendering of Lightning</a></li>
-          <li><a href="http://gamma.cs.unc.edu/FAST_LIGHTNING/lightning_tvcg_2007.pdf" target="_blank"
-              rel="noopener">Fast
-              Lightning Rendering</a></li>
-          <li><a href="https://link.springer.com/chapter/10.1007/11686699_63" target="_blank" rel="noopener">Real-Time
-              Rain Simulation</a></li>
-          <li><a href="https://medium.com/community-play-3d/god-rays-whats-that-5a67f26aeac2" target="_blank"
-              rel="noopener">God
-              Rays? What's that?. No, it's coming from humans | by Julien Moreau-Mathis | Community
-              Play 3D</a></li>
-        </ol>
-      </div>
-      <!-- End resources -->
     </div>
     <!-- END CONTENT -->
 
