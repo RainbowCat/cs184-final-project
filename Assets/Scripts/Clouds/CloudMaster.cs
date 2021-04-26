@@ -52,84 +52,125 @@ public class CloudMaster : MonoBehaviour
     public float detailSpeed = 2;
 
     [Header(headerDecoration + "Sky" + headerDecoration)]
-    public Color colorBottom;
-    public Color colorTop;
+    public Color colA;
+    public Color colB;
 
     // Internal
     [HideInInspector]
     public Material material;
 
+    // weather parametiers
     enum WeatherStage { Stormy, Cloudy, Sunny };
     WeatherStage currentWeather;
 
+    float sunny_cloudScale = 0.1f;
+    float sunny_density = 1.0f;
+    float sunny_densityOffset = -2.0f;
+
+    float storm_cloudScale = 1.0f;
+    float storm_density = 1.0f;
+    float storm_densityOffset = -1.0f;
+
+    Color color_blue = new Color(0.44f, 0.64f, 0.8f, 1.0f);
+    Color color_grey = new Color(0.25f, 0.25f, 0.25f, 1.0f);
     void Awake()
     {
-        initWeather();
         var weatherMapGen = FindObjectOfType<WeatherMap>();
         if (Application.isPlaying)
         {
             weatherMapGen.UpdateMap();
         }
     }
-
-    void initWeather()
+    int frame = 0;
+    void Start()
     {
-        setToStorm(); // LATER: make this controllable by Unity
+        setToStormy();
     }
 
-    void setToStorm()
+    void setToStormy()
     {
-        cloudScale = 0.5f;
-        densityMultiplier = 1.0f;
-        densityOffset = -2.0f;
-        colorBottom = new Color(0.3f, 0.3f, 0.3f, 1.0f);
-        colorTop = new Color(0.3f, 0.3f, 0.3f, 1.0f);
+        cloudScale = storm_cloudScale;
+        densityMultiplier = storm_density;
+        densityOffset = storm_densityOffset;
+        colA = color_grey;
+        colB = color_grey;
         currentWeather = WeatherStage.Stormy;
     }
 
     void setToSunny()
     {
-        cloudScale = 0.15f;
-        densityMultiplier = 1.0f;
-        densityOffset = -4.0f;
-        colorBottom = new Color(0.44f, 0.64f, 0.8f, 1.0f);
-        colorTop = new Color(0.3f, 0.3f, 0.3f, 1.0f);
+        cloudScale = sunny_cloudScale;
+        densityMultiplier = sunny_density;
+        densityOffset = sunny_densityOffset;
+        colA = color_grey;
+        colB = color_blue;
         currentWeather = WeatherStage.Sunny;
     }
 
-    float storm_cloudScale = 0.5f;
-    float sunny_cloudScale = 0.15f;
-    float storm_density = 1.0f;
-    float sunny_density = 1.0f;
-    float storm_densityOffset = -2.0f;
-    float sunny_densityOffset = -4.0f;
+void towardsStormy() {
+
+}
+
+void towardsSunny() {
+
+}
+    float stepPerSecond = 0.3f;
+
     void Update()
     {
-        // change cloud scale
-        if (cloudScale <= sunny_cloudScale)
+        if (currentWeather == WeatherStage.Stormy)
         {
-            cloudScale += 0.1f * Time.deltaTime;
-        } else (cloudScale >= storm_cloudScale) {
-            cloudScale -= 0.1f * Time.deltaTime;
+            towardsSunny();
+        } else {
+            towardsStormy();
         }
 
-        // change density Multiplier
-        if (densityMultiplier <= sunny_cloudScale)
-        {
-            densityMultiplier += 0.1f * Time.deltaTime;
-        }
-        else (densityMultiplier >= storm_cloudScale) {
-            densityMultiplier -= 0.1f * Time.deltaTime;
-        }
+        // check WeatherStage
+        
+        // TESTING ONLY
+        // if (frame % 100 == 0)
+        // {
+        //     if (currentWeather == WeatherStage.Stormy)
+        //     {
+        //         setToSunny();
+        //         currentWeather = WeatherStage.Sunny;
+        //     }
+        //     else
+        //     {
+        //         setToStormy();
+        //         currentWeather = WeatherStage.Stormy;
+        //     }
+        // }
 
-        // change densityOffset
-        if (densityOffset <= sunny_cloudScale)
-        {
-            densityOffset += 0.1f * Time.deltaTime;
-        }
-        else (densityOffset >= storm_cloudScale) {
-            densityOffset += 0.1f * Time.deltaTime;
-        }
+        // // change cloud scale
+        // if (cloudScale <= Mathf.Min(sunny_cloudScale, storm_cloudScale))
+        // {
+        //     cloudScale += stepPerSecond * Time.deltaTime;
+        // }
+        // else if (cloudScale >= Mathf.Max(sunny_cloudScale, storm_cloudScale))
+        // {
+        //     cloudScale -= stepPerSecond * Time.deltaTime;
+        // }
+
+        // // change density Multiplier
+        // if (densityMultiplier <= Mathf.Min(sunny_density, storm_density))
+        // {
+        //     densityMultiplier += stepPerSecond * Time.deltaTime;
+        // }
+        // else if (densityMultiplier >= Mathf.Max(sunny_density, storm_density))
+        // {
+        //     densityMultiplier -= stepPerSecond * Time.deltaTime;
+        // }
+
+        // // change densityOffset
+        // if (densityOffset <= Mathf.Min(sunny_densityOffset, storm_densityOffset))
+        // {
+        //     densityOffset += stepPerSecond * Time.deltaTime;
+        // }
+        // else if (densityOffset >= Mathf.Max(sunny_densityOffset, storm_densityOffset))
+        // {
+        //     densityOffset -= stepPerSecond * Time.deltaTime;
+        // }
 
     }
 
@@ -196,8 +237,8 @@ public class CloudMaster : MonoBehaviour
         // Set debug params
         SetDebugParams();
 
-        material.SetColor("colorBottom", colorBottom);
-        material.SetColor("colorTop", colorTop);
+        material.SetColor("colA", colA);
+        material.SetColor("colB", colB);
 
         // Bit does the following:
         // - sets _MainTex property on material to the source texture
