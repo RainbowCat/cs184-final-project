@@ -335,7 +335,7 @@ Shader "Hidden/Clouds"
 
                
                 // Composite sky + background
-                float3 skyColBase = lerp(colA,colB, sqrt(abs(saturate(rayDir.y))));
+                float3 skyColBase = lerp(colA, colB, sqrt(abs(saturate(rayDir.y))));
                 float3 backgroundCol = tex2D(_MainTex,i.uv);
                 float dstFog = 1-exp(-max(0,depth) * 8*.0001);
                 float3 sky = dstFog * skyColBase;

@@ -63,13 +63,13 @@ public class CloudMaster : MonoBehaviour
     enum WeatherStage { Stormy, Cloudy, Sunny };
     WeatherStage currentWeather;
 
-    float sunny_cloudScale = 0.1f;
-    float sunny_density = 1.0f;
-    float sunny_densityOffset = -2.0f;
+    static float sunny_cloudScale = 0.1f;
+    static float sunny_density = 0.1f;
+    static float sunny_densityOffset = -4.0f;
 
-    float storm_cloudScale = 1.0f;
-    float storm_density = 1.0f;
-    float storm_densityOffset = -1.0f;
+    static float stormy_cloudScale = 1.0f;
+    static float stormy_density = 1.0f;
+    static float stormy_densityOffset = -1.0f;
 
     Color color_blue = new Color(0.44f, 0.64f, 0.8f, 1.0f);
     Color color_grey = new Color(0.25f, 0.25f, 0.25f, 1.0f);
@@ -84,14 +84,14 @@ public class CloudMaster : MonoBehaviour
     int frame = 0;
     void Start()
     {
-        setToStormy();
+        setToSunny();
     }
 
     void setToStormy()
     {
-        cloudScale = storm_cloudScale;
-        densityMultiplier = storm_density;
-        densityOffset = storm_densityOffset;
+        cloudScale = stormy_cloudScale;
+        densityMultiplier = stormy_density;
+        densityOffset = stormy_densityOffset;
         colA = color_grey;
         colB = color_grey;
         currentWeather = WeatherStage.Stormy;
@@ -107,71 +107,39 @@ public class CloudMaster : MonoBehaviour
         currentWeather = WeatherStage.Sunny;
     }
 
-void towardsStormy() {
-
-}
-
-void towardsSunny() {
-
-}
-    float stepPerSecond = 0.3f;
+    static float period = 10;
+    float scaleStep = Mathf.Abs(stormy_cloudScale - sunny_cloudScale) / period;
+    float densityStep = Mathf.Abs(stormy_density - sunny_density) / period;
+    float offsetStep = Mathf.Abs(stormy_densityOffset - sunny_densityOffset) / period;
 
     void Update()
     {
         if (currentWeather == WeatherStage.Stormy)
         {
-            towardsSunny();
-        } else {
-            towardsStormy();
+            // towards sunny
+            cloudScale -= scaleStep * Time.deltaTime;
+            densityMultiplier -= densityStep * Time.deltaTime;
+            densityOffset -= offsetStep * Time.deltaTime;
+            // check if reached sunny
+            if ((cloudScale <= sunny_cloudScale) | (densityMultiplier <= sunny_density) | (densityOffset <= sunny_densityOffset))
+            {
+                setToSunny();
+                currentWeather = WeatherStage.Sunny;
+            }
         }
-
-        // check WeatherStage
-        
-        // TESTING ONLY
-        // if (frame % 100 == 0)
-        // {
-        //     if (currentWeather == WeatherStage.Stormy)
-        //     {
-        //         setToSunny();
-        //         currentWeather = WeatherStage.Sunny;
-        //     }
-        //     else
-        //     {
-        //         setToStormy();
-        //         currentWeather = WeatherStage.Stormy;
-        //     }
-        // }
-
-        // // change cloud scale
-        // if (cloudScale <= Mathf.Min(sunny_cloudScale, storm_cloudScale))
-        // {
-        //     cloudScale += stepPerSecond * Time.deltaTime;
-        // }
-        // else if (cloudScale >= Mathf.Max(sunny_cloudScale, storm_cloudScale))
-        // {
-        //     cloudScale -= stepPerSecond * Time.deltaTime;
-        // }
-
-        // // change density Multiplier
-        // if (densityMultiplier <= Mathf.Min(sunny_density, storm_density))
-        // {
-        //     densityMultiplier += stepPerSecond * Time.deltaTime;
-        // }
-        // else if (densityMultiplier >= Mathf.Max(sunny_density, storm_density))
-        // {
-        //     densityMultiplier -= stepPerSecond * Time.deltaTime;
-        // }
-
-        // // change densityOffset
-        // if (densityOffset <= Mathf.Min(sunny_densityOffset, storm_densityOffset))
-        // {
-        //     densityOffset += stepPerSecond * Time.deltaTime;
-        // }
-        // else if (densityOffset >= Mathf.Max(sunny_densityOffset, storm_densityOffset))
-        // {
-        //     densityOffset -= stepPerSecond * Time.deltaTime;
-        // }
-
+        else
+        {
+            // towards stormy
+            cloudScale += scaleStep * Time.deltaTime;
+            densityMultiplier += densityStep * Time.deltaTime;
+            densityOffset += offsetStep * Time.deltaTime;
+            // check if reached stormy
+            if ((cloudScale >= stormy_cloudScale) | (densityMultiplier >= stormy_density) | (densityOffset >= stormy_densityOffset))
+            {
+                setToStormy();
+                currentWeather = WeatherStage.Stormy;
+            }
+        }
     }
 
     [ImageEffectOpaque]
