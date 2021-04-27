@@ -73,6 +73,14 @@ public class CloudMaster : MonoBehaviour
 
     Color color_blue = new Color(0.44f, 0.64f, 0.8f, 1.0f);
     Color color_grey = new Color(0.25f, 0.25f, 0.25f, 1.0f);
+
+    static float period = 20;
+    float scaleStep = Mathf.Abs(stormy_cloudScale - sunny_cloudScale) / period;
+    float densityStep = Mathf.Abs(stormy_density - sunny_density) / period;
+    float offsetStep = Mathf.Abs(stormy_densityOffset - sunny_densityOffset) / period;
+    float colorStepR;
+    float colorStepB;
+    float colorStepG;
     void Awake()
     {
         var weatherMapGen = FindObjectOfType<WeatherMap>();
@@ -80,6 +88,9 @@ public class CloudMaster : MonoBehaviour
         {
             weatherMapGen.UpdateMap();
         }
+        colorStepR = Mathf.Abs(color_grey.r - color_blue.r) / period;
+        colorStepB = Mathf.Abs(color_grey.b - color_blue.b) / period;
+        colorStepG = Mathf.Abs(color_grey.g - color_blue.g) / period;
     }
     int frame = 0;
     void Start()
@@ -102,15 +113,13 @@ public class CloudMaster : MonoBehaviour
         cloudScale = sunny_cloudScale;
         densityMultiplier = sunny_density;
         densityOffset = sunny_densityOffset;
-        colA = color_grey;
+        colA = color_blue;
         colB = color_blue;
         currentWeather = WeatherStage.Sunny;
     }
 
-    static float period = 10;
-    float scaleStep = Mathf.Abs(stormy_cloudScale - sunny_cloudScale) / period;
-    float densityStep = Mathf.Abs(stormy_density - sunny_density) / period;
-    float offsetStep = Mathf.Abs(stormy_densityOffset - sunny_densityOffset) / period;
+
+
 
     void Update()
     {
@@ -120,6 +129,13 @@ public class CloudMaster : MonoBehaviour
             cloudScale -= scaleStep * Time.deltaTime;
             densityMultiplier -= densityStep * Time.deltaTime;
             densityOffset -= offsetStep * Time.deltaTime;
+            colA.r += colorStepR * Time.deltaTime;
+            colA.b += colorStepB * Time.deltaTime;
+            colA.g += colorStepG * Time.deltaTime;
+
+            colB.r += colorStepR * Time.deltaTime;
+            colB.b += colorStepB * Time.deltaTime;
+            colB.g += colorStepG * Time.deltaTime;
             // check if reached sunny
             if ((cloudScale <= sunny_cloudScale) | (densityMultiplier <= sunny_density) | (densityOffset <= sunny_densityOffset))
             {
@@ -133,6 +149,13 @@ public class CloudMaster : MonoBehaviour
             cloudScale += scaleStep * Time.deltaTime;
             densityMultiplier += densityStep * Time.deltaTime;
             densityOffset += offsetStep * Time.deltaTime;
+            colA.r -= colorStepR * Time.deltaTime;
+            colA.b -= colorStepB * Time.deltaTime;
+            colA.g -= colorStepG * Time.deltaTime;
+
+            colB.r -= colorStepR * Time.deltaTime;
+            colB.b -= colorStepB * Time.deltaTime;
+            colB.g -= colorStepG * Time.deltaTime;
             // check if reached stormy
             if ((cloudScale >= stormy_cloudScale) | (densityMultiplier >= stormy_density) | (densityOffset >= stormy_densityOffset))
             {
