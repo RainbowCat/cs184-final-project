@@ -8,7 +8,7 @@ public class LightningBranch : MonoBehaviour
     public int maxNumSegments = 10;
     public int maxDepth = 5;
     public static float minSegmentLength = 0.5f;
-    public static float maxSegmentLength = 10;
+   public static float maxSegmentLength = 10.0f;
 
     public int randomSeed;
     public Vector3 startPos;
@@ -46,7 +46,7 @@ public class LightningBranch : MonoBehaviour
 
         float perSegmentBranchProb = branchProb;
         
-        for(int i = 0; i < segments.Count; i++){
+        for(int i = 1; i < segments.Count; i++){
             if((float)(prng.NextDouble()) < perSegmentBranchProb && depth < maxDepth){
                 LightningBranch childBranch = new LightningBranch();
                 childBranch.isMainChannel = false;
