@@ -7,7 +7,7 @@ public class LightningBranch : MonoBehaviour
     public bool isMainChannel; // TODO change to non-variable
     public int maxNumSegments = 10;
     public int maxDepth = 5;
-    public static float minSegmentLength = 0.5;
+    public static float minSegmentLength = 0.5f;
     public static float maxSegmentLength = 10;
 
     public int randomSeed;
@@ -15,15 +15,16 @@ public class LightningBranch : MonoBehaviour
     Vector3 startDir = Vector3.down;
     static float DIRECTION_MEAN = 16.0f;
     static float DIRECTION_VARIANCE = 0.1f;
-    public float groundZero; // TODO change to non-variable
-
+    
     int depth = 0;
-    public float branchProb = 0.0; // initialize to no branching
+    public float branchProb = 0.0f; // initialize to no branching
 
     List<LightningSegment> segments = new List<LightningSegment>();
     List<(int, LightningBranch)> children = new List<(int, LightningBranch)>();
-    
-    
+
+    public Material lightningMaterial;
+    public float groundZero; // TODO change to non-variable
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +44,7 @@ public class LightningBranch : MonoBehaviour
 
     void buildChildrenBranches(System.Random prng) {
 
-        float perSegmentBranchProb = branchProb / segments.Count; // branching occurs more often when near the ground
+        float perSegmentBranchProb = branchProb;
         
         for(int i = 0; i < segments.Count; i++){
             if((float)(prng.NextDouble()) < perSegmentBranchProb && depth < maxDepth){

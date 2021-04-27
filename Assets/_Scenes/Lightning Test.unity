@@ -399,6 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2094465556}
   - component: {fileID: 2094465555}
+  - component: {fileID: 2094465557}
   m_Layer: 0
   m_Name: Lightning Manager
   m_TagString: Untagged
@@ -418,6 +419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e2ad39139414523afb094fb09e92ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightningDensity: 0
+  maxTreeDepth: 0
+  maxBranchFactor: 0
+  lightningMaterial: {fileID: 0}
 --- !u!4 &2094465556
 Transform:
   m_ObjectHideFlags: 0
@@ -432,3 +437,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2094465557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094465554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ed1976876c884bcdaa20f9dfa404f43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMainChannel: 1
+  maxNumSegments: 10
+  maxDepth: 5
+  randomSeed: 0
+  startPos: {x: 0, y: 100, z: 0}
+  branchProb: 0.3
+  lightningMaterial: {fileID: 2100000, guid: 0a1dbea49aba04ccfaaa36b3a6e9930c, type: 2}
+  groundZero: 0
