@@ -13,19 +13,18 @@ public class LightningSegment : MonoBehaviour
 
     public Material lightningMaterial;
 
-    Vector3 cylDefaultOrientation = new Vector3(0, 1, 0);
-    List<LightningSegment> children = new List<LightningSegment>();
-
+    Vector3 cylDefaultOrientation = Vector3.up;
+    float cylinderRadius = 1f;
     void Start()
     {
-        createSegment(start, length, direction);
+        createSegment();
     }
 
-    public void createSegment(Vector3 startPt, float length, Vector3 direction)
+    public void createSegment()
     {
         // TODO: later add change object name?
         GameObject initialSegment = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        initialSegment.transform.localScale = new Vector3(0.1f, length / 2.0f, 0.1f);
+        initialSegment.transform.localScale = new Vector3(cylinderRadius, length / 2.0f, cylinderRadius);
 
         Vector3 directionNormal = Vector3.Normalize(direction);
         initialSegment.transform.position = start + directionNormal * length / 2.0f;
