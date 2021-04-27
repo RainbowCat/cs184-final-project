@@ -25,23 +25,63 @@
 
     <br class="spacer" />
 
+    <h1>Milestone Status Report</h1>
+
+    <div class="table-of-contents">
+      <ul>
+        <!-- <li><a href="#overview">Overview</a></li> -->
+        <li><a href="#accomplishments">Accomplishments and Preliminary Results</a></li>
+        <li><a href="#progress">Progress Check & Next Steps</a></li>
+      </ul>
+    </div><!-- end table of contents -->
+
     <!-- START PAGE CONTENT -->
     <div class="content">
 
       <div class="section" id="overview">
-        <h1>Project Overview</h1>
+        <h1>Project Idea</h1>
         <p>Working on top of <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">this</a>
           cloud simulation done by <a href="https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ" target="_blank"
-            rel="noopener">Sebastian Lague</a> with Unity, we will add simulations of lightning, rain, and god rays
-          through atmospheric rendering.</p>
+            rel="noopener">Sebastian Lague</a> with Unity, we will add physical simulation of lightning.</p>
       </div><!-- END OVERVIEW -->
 
-      <div class="section">
-        <h1>Accomplishments</h1>
-        <p>TODO</p>
-        <h1>Preliminary Results</h1>
-        <h1>Video</h1>
-        <h1>Slides</h1>
+      <div class="section" id="accomplishments">
+        <h1>Accomplishments and Preliminary Results</h1>
+        <h4 style="text-align: center;">
+          <a href="#">video</a> |
+          <a href="https://docs.google.com/presentation/d/1wU7YdVsQIYL8KF2fpK3t-EaHkMD5smkFFD9fE7ymULM">slides</a>
+        </h4>
+        <!-- <div style="text-align: center;">
+          <iframe
+            src="https://docs.google.com/presentation/d/e/2PACX-1vR02RK6Cg8bDG3pOrPdZIooY-NnO4_aL6Dz_FP7of7WoApGm4a510fan8avHuNP1GptwdiIdG8vFy7a/embed?start=false&loop=false&delayms=3000"
+            frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true"
+            webkitallowfullscreen="true"></iframe>
+        </div> -->
+
+        <h3>Clouds</h3>
+        <p>We were able to edit <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">Sebastian
+            Lague's code</a> and generate a smooth transition of clouds between stormy and sunny days (see <a
+            href="#">video</a>).
+        </p>
+        <p>We first tested and found the cloud parameters (scale and density) that replicates clouds in stormy
+          weather and sunny weather best. Then, we used Unity's Update function to implement a smooth transition
+          between them.</p>
+        <h3>Lightning</h3>
+        <p>As for lightning simulation, we decided to follow <a
+            href="https://drive.google.com/file/d/1YpTCsI4K860oSaxWg_ytC9OIJtWB-dBQ/view">this paper</a> after
+          researching on previous works.</p>
+        <p>TODO add lightning implementation description</p>
+
+      </div>
+
+      <div class="section" id="progress">
+        <h1>Progress Check & Next Steps</h1>
+        <p>We didn't really follow our initial plan that would allow us to reach our aspirational deliverables. But, we
+          are still on track for completing our baseline plan, which is to complete lightning simulation. </p>
+        <p>Our plan is
+          to generate a good geometric representation for lightning bolts this week. Then, we will focus on the
+          aesthetics which will include adding a glow effect, variating the luminance of lightning streaks based on its
+          location, as well as cloud dependent spawning of our lightning bolts.</p>
       </div>
 
     </div>
