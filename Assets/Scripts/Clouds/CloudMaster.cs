@@ -74,10 +74,12 @@ public class CloudMaster : MonoBehaviour
     Color color_blue = new Color(0.44f, 0.64f, 0.8f, 1.0f);
     Color color_grey = new Color(0.25f, 0.25f, 0.25f, 1.0f);
 
-    static float period = 20;
-    float scaleStep = Mathf.Abs(stormy_cloudScale - sunny_cloudScale) / period;
-    float densityStep = Mathf.Abs(stormy_density - sunny_density) / period;
-    float offsetStep = Mathf.Abs(stormy_densityOffset - sunny_densityOffset) / period;
+    static float transition_time = 20;
+    static float stay_time = 10.0f;
+    static float period = transition_time * 2 + stay_time * 2;
+    float scaleStep = Mathf.Abs(stormy_cloudScale - sunny_cloudScale) / transition_time;
+    float densityStep = Mathf.Abs(stormy_density - sunny_density) / transition_time;
+    float offsetStep = Mathf.Abs(stormy_densityOffset - sunny_densityOffset) / transition_time;
     float colorStepR;
     float colorStepB;
     float colorStepG;
@@ -88,14 +90,14 @@ public class CloudMaster : MonoBehaviour
         {
             weatherMapGen.UpdateMap();
         }
-        colorStepR = Mathf.Abs(color_grey.r - color_blue.r) / period;
-        colorStepB = Mathf.Abs(color_grey.b - color_blue.b) / period;
-        colorStepG = Mathf.Abs(color_grey.g - color_blue.g) / period;
+        colorStepR = Mathf.Abs(color_grey.r - color_blue.r) / transition_time;
+        colorStepB = Mathf.Abs(color_grey.b - color_blue.b) / transition_time;
+        colorStepG = Mathf.Abs(color_grey.g - color_blue.g) / transition_time;
     }
-    int frame = 0;
+
     void Start()
     {
-        setToSunny();
+        setToStormy();
     }
 
     void setToStormy()
@@ -118,12 +120,21 @@ public class CloudMaster : MonoBehaviour
         currentWeather = WeatherStage.Sunny;
     }
 
-
-
-
     void Update()
     {
-        if (currentWeather == WeatherStage.Stormy)
+        if (Time.time % period < stay_time) // stage 1
+        {
+            setToStormy();
+            return;
+        }
+
+        if (Time.time % period > stay_time + transition_time && Time.time % period < stay_time * 2 + transition_time) // stage 4
+        {
+            setToSunny();
+            return;
+        }
+
+        if (currentWeather == WeatherStage.Stormy) // stage 2
         {
             // towards sunny
             cloudScale -= scaleStep * Time.deltaTime;
@@ -143,7 +154,7 @@ public class CloudMaster : MonoBehaviour
                 currentWeather = WeatherStage.Sunny;
             }
         }
-        else
+        else // stage 3
         {
             // towards stormy
             cloudScale += scaleStep * Time.deltaTime;
