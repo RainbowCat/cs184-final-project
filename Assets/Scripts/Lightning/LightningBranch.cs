@@ -41,7 +41,8 @@ public class LightningBranch : MonoBehaviour
         constructLightningBranch();
     }
 
-    void constructLightningBranch() {
+    void constructLightningBranch()
+    {
 
         // build main branch that reaches the ground
         var prng = new System.Random(randomSeed);
@@ -52,12 +53,15 @@ public class LightningBranch : MonoBehaviour
 
     }
 
-    void buildChildrenBranches(System.Random prng) {
+    void buildChildrenBranches(System.Random prng)
+    {
 
         float perSegmentBranchProb = branchProb;
-        
-        for(int i = 1; i < segments.Count; i++){
-            if((float)(prng.NextDouble()) < perSegmentBranchProb && depth < maxDepth){
+
+        for (int i = 1; i < segments.Count; i++)
+        {
+            if ((float)(prng.NextDouble()) < perSegmentBranchProb && depth < maxDepth)
+            {
                 LightningBranch childBranch = gameObject.AddComponent<LightningBranch>() as LightningBranch;
                 childBranch.isMainChannel = false;
                 childBranch.lightningMaterial = lightningMaterial;
@@ -67,7 +71,8 @@ public class LightningBranch : MonoBehaviour
                 childBranch.branchProb = branchProb;
                 childBranch.randomSeed = randomSeed + i;
                 childBranch.depth = depth + 1;
-                childBranch.branchRadius = branchRadius * (float) (prng.NextDouble() * (MAX_BRANCH_REDUCTION_FACTOR - MIN_BRANCH_REDUCTION_FACTOR) + MIN_BRANCH_REDUCTION_FACTOR);
+                childBranch.branchRadius = branchRadius * (float)(prng.NextDouble() *
+                                           (MAX_BRANCH_REDUCTION_FACTOR - MIN_BRANCH_REDUCTION_FACTOR) + MIN_BRANCH_REDUCTION_FACTOR);
                 childBranch.maxNumSegments = prng.Next() % (segmentsMax - segmentsMin) + segmentsMin;
                 childBranch.constructLightningBranch();
                 children.Add((i, childBranch));
@@ -75,11 +80,11 @@ public class LightningBranch : MonoBehaviour
         }
     }
 
-    void buildBranch(System.Random prng) 
+    void buildBranch(System.Random prng)
     {
         if (isMainChannel)
         {
-            startDir = Vector3.down;   
+            startDir = Vector3.down;
         }
         Vector3 currDir = startDir;
         Vector3 currStartPos = startPos;
@@ -105,7 +110,7 @@ public class LightningBranch : MonoBehaviour
     Vector3 generateNormalDirection(System.Random prng, Vector3 refDir, float mean, float variance)
     {
         float azimuthalAngle = (float)(prng.NextDouble()) * 2.0f * Mathf.PI;
-        float normalRVAngle = generateRandomNormal(prng, mean , Mathf.Sqrt(variance));
+        float normalRVAngle = generateRandomNormal(prng, mean, Mathf.Sqrt(variance));
 
         Vector3 azimuthalVector = Mathf.Cos(azimuthalAngle) * Vector3.forward + Mathf.Sin(azimuthalAngle) * Vector3.right;
         Vector3 newDirVector = Mathf.Cos(normalRVAngle) * Vector3.down + Mathf.Sin(normalRVAngle) * azimuthalVector;
@@ -117,7 +122,7 @@ public class LightningBranch : MonoBehaviour
     Vector3 generateUniformDirection(System.Random prng, Vector3 refDir, float minVal, float maxVal)
     {
         float azimuthalAngle = (float)(prng.NextDouble()) * 2.0f * Mathf.PI;
-        float normalRVAngle = ((float) prng.NextDouble() * (maxVal - minVal) + minVal);
+        float normalRVAngle = ((float)prng.NextDouble() * (maxVal - minVal) + minVal);
 
         Vector3 azimuthalVector = Mathf.Cos(azimuthalAngle) * Vector3.forward + Mathf.Sin(azimuthalAngle) * Vector3.right;
         Vector3 newDirVector = Mathf.Cos(normalRVAngle) * Vector3.down + Mathf.Sin(normalRVAngle) * azimuthalVector;
@@ -126,9 +131,6 @@ public class LightningBranch : MonoBehaviour
         return Vector3.Normalize(rotate * refDir);
     }
 
-
-
-
     float generateRandomNormal(System.Random rand, float mean, float stdev)
     {
         float u1 = (float)(1.0 - rand.NextDouble()); //uniform(0,1] random doubles
@@ -136,7 +138,6 @@ public class LightningBranch : MonoBehaviour
         float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) *
                      Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
         return mean + stdev * randStdNormal; //random normal(mean,stdDev^2)
-
     }
 
     // Update is called once per frame

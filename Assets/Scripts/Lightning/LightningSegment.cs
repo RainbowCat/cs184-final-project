@@ -26,7 +26,7 @@ public class LightningSegment : MonoBehaviour
 
     public void createSegment()
     {
-        // TODO: later add change object name?
+        // TODO later add change object name?
         GameObject initialSegment = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         initialSegment.transform.localScale = new Vector3(cylinderRadius, length / 2.0f, cylinderRadius);
 

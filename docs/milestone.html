@@ -1,10 +1,11 @@
-﻿+<!DOCTYPE html PUBLIC "-//W3C//Ddiv XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/Ddiv/xhtml1-strict.ddiv">
+﻿<!DOCTYPE html PUBLIC "-//W3C//Ddiv XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/Ddiv/xhtml1-strict.ddiv">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
   <head>
     <title>CS 184 FINAL PROJECT</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="style.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
   </head>
 
   <body>
@@ -46,70 +47,72 @@
       </div><!-- END OVERVIEW -->
 
       <div class="section" id="accomplishments">
-          <h1>Accomplishments and Preliminary Results</h1>
-          <h4 style="text-align: center;">
-              <a href="#">video</a> |
-              <a href="https://docs.google.com/presentation/d/1wU7YdVsQIYL8KF2fpK3t-EaHkMD5smkFFD9fE7ymULM">slides</a>
-          </h4>
-          <!-- <div style="text-align: center;">
-      <iframe
-        src="https://docs.google.com/presentation/d/e/2PACX-1vR02RK6Cg8bDG3pOrPdZIooY-NnO4_aL6Dz_FP7of7WoApGm4a510fan8avHuNP1GptwdiIdG8vFy7a/embed?start=false&loop=false&delayms=3000"
-        frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true"
-        webkitallowfullscreen="true"></iframe>
-    </div> -->
+        <h1>Accomplishments and Preliminary Results</h1>
+        <h4 class="center">
+          <a href="https://drive.google.com/file/d/1bEkbjdfa2Ut3GX1T3F-5AA8Scw2SB_UO/view?usp=sharing">video</a> |
+          <a href="https://docs.google.com/presentation/d/1wU7YdVsQIYL8KF2fpK3t-EaHkMD5smkFFD9fE7ymULM">slides</a>
+        </h4>
 
-          <h3>Clouds</h3>
-          <p>
-              We were able to edit <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">
-                  Sebastian
-                  Lague's code
-              </a> and generate a smooth transition of clouds between stormy and sunny days (see <a href="#">video</a>).
-          </p>
-          <p>
-              We first tested and found the cloud parameters (scale and density) that replicates clouds in stormy
-              weather and sunny weather best. Then, we used Unity's Update function to implement a smooth transition
-              between them using linear interpolation.
-          </p>
-          <p>The results of the weather, stormy and sunny, are shown below:</p>
-          <div class="w3-center w3-padding">
-              <div class="w3-row">
-                  <img src="images/weather_stormy.png" alt="task1_screenshot" width="30%" />
-                  <img src="images/sunny_weather.png" alt="task1_screenshot" width="30%" />
-              </div>
-          </div>
+        <!-- <div class="center">
+          <iframe
+            src="https://docs.google.com/presentation/d/e/2PACX-1vR02RK6Cg8bDG3pOrPdZIooY-NnO4_aL6Dz_FP7of7WoApGm4a510fan8avHuNP1GptwdiIdG8vFy7a/embed?start=false&loop=false&delayms=3000"
+            frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true"
+            webkitallowfullscreen="true"></iframe>
+        </div> -->
+
+        <h3>Clouds</h3>
+        <p>
+          We were able to edit <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">
+            Sebastian
+            Lague's code
+          </a> and generate a smooth transition of clouds between stormy and sunny days (see <a
+            href="https://drive.google.com/file/d/1bEkbjdfa2Ut3GX1T3F-5AA8Scw2SB_UO/view?usp=sharing">video</a>).
+        </p>
+        <p>
+          We first tested and found the cloud parameters (scale and density) that replicates clouds in stormy
+          weather and sunny weather best. Then, we used Unity's Update function to implement a smooth transition
+          between them using linear interpolation.
+        </p>
+
+        <p>The results of the weather, stormy and sunny, are shown below:</p>
+        <div class="grid">
+          <img src="images/weather_stormy.png" alt="task1_screenshot" />
+          <img src="images/sunny_weather.png" alt="task1_screenshot" />
+        </div>
       </div>
 
-          <h3>Lightning</h3>
-          <p>
-              As for lightning simulation, we decided to follow <a href="https://drive.google.com/file/d/1YpTCsI4K860oSaxWg_ytC9OIJtWB-dBQ/view">this paper</a> after
-              researching on previous works.
-          </p>
-          <p>
-              We used LightningBranch script to start from a main "trunk", and then recursively generate the branches.
-              Then we used LightningSegment script to create a cylinder with a purple material to simulate a small segment
-              of the lightning given the starting point, length and direction. We are looking to replace this step with shader rendering
-              in the future.
-          </p>
-          <p>The result of the lighning are shown below.</p>
-          <div class="w3-center w3-padding">
-              <div class="w3-row">
-                  <img src="images/ms_lightning1.png" alt="task1_screenshot" width="30%" />
-                  <img src="images/ms_lightning2.png" alt="task1_screenshot" width="30%" />
-                  <img src="images/ms_lightning3.png" alt="task1_screenshot" width="30%" />
-              </div>
-          </div>
+      <h3>Lightning</h3>
+      <p>
+        As for lightning simulation, we decided to follow <a
+          href="https://drive.google.com/file/d/1YpTCsI4K860oSaxWg_ytC9OIJtWB-dBQ/view">this paper</a> after
+        researching on previous works.
+      </p>
+      <p>
+        We used LightningBranch script to start from a main "trunk", and then recursively generate the branches.
+        Then we used LightningSegment script to create a cylinder with a purple material to simulate a small segment
+        of the lightning given the starting point, length and direction. We are looking to replace this step with shader
+        rendering
+        in the future.
+      </p>
 
+      <p>The result of the lighning are shown below:</p>
+      <div class="grid">
+        <img src="images/ms_lightning1.png" alt="task1_screenshot" />
+        <img src="images/ms_lightning2.png" alt="task1_screenshot" />
+        <img src="images/ms_lightning3.png" alt="task1_screenshot" />
       </div>
 
-      <div class="section" id="progress">
-        <h1>Progress Check & Next Steps</h1>
-        <p>We didn't really follow our initial plan that would allow us to reach our aspirational deliverables. But, we
-          are still on track for completing our baseline plan, which is to complete lightning simulation. </p>
-        <p>Our plan is
-          to generate a good geometric representation for lightning bolts this week. Then, we will focus on the
-          aesthetics which will include adding a glow effect, variating the luminance of lightning streaks based on its
-          location, as well as cloud dependent spawning of our lightning bolts.</p>
-      </div>
+    </div>
+
+    <div class="section" id="progress">
+      <h1>Progress Check & Next Steps</h1>
+      <p>We didn't really follow our initial plan that would allow us to reach our aspirational deliverables. But, we
+        are still on track for completing our baseline plan, which is to complete lightning simulation. </p>
+      <p>Our plan is
+        to generate a good geometric representation for lightning bolts this week. Then, we will focus on the
+        aesthetics which will include adding a glow effect, variating the luminance of lightning streaks based on its
+        location, as well as cloud dependent spawning of our lightning bolts.</p>
+    </div>
 
     </div>
     <!-- END CONTENT -->
