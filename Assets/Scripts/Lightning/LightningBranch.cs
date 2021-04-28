@@ -6,16 +6,26 @@ public class LightningBranch : MonoBehaviour
 {
     public bool isMainChannel; // TODO change to non-variable
     public int maxNumSegments = 10;
-    public int maxDepth = 5;
-    public static float minSegmentLength = 0.5f;
-   public static float maxSegmentLength = 10.0f;
 
+    public int segmentsMax = 20;
+    public int segmentsMin = 10;
+    public int maxDepth = 5;
+    public static float minSegmentLength = 1f;
+    public static float maxSegmentLength = 2.5f;
+
+
+    public float branchRadius;
     public int randomSeed;
     public Vector3 startPos;
     Vector3 startDir = Vector3.down;
-    static float DIRECTION_MEAN = 16.0f;
+    static float DIRECTION_MEAN = 0.179f;
     static float DIRECTION_VARIANCE = 0.1f;
-    
+
+    static float BRANCH_ANGLE_MIN = 0.18f;
+    static float BRANCH_ANGLE_MAX = 0.75f;
+
+    static float MAX_BRANCH_REDUCTION_FACTOR = 0.6f;
+    static float MIN_BRANCH_REDUCTION_FACTOR = 0.45f;
     int depth = 0;
     public float branchProb = 0.0f; // initialize to no branching
 
@@ -48,16 +58,17 @@ public class LightningBranch : MonoBehaviour
         
         for(int i = 1; i < segments.Count; i++){
             if((float)(prng.NextDouble()) < perSegmentBranchProb && depth < maxDepth){
-                LightningBranch childBranch = new LightningBranch();
+                LightningBranch childBranch = gameObject.AddComponent<LightningBranch>() as LightningBranch;
                 childBranch.isMainChannel = false;
                 childBranch.lightningMaterial = lightningMaterial;
-                childBranch.startDir = generateUniformDirection(prng, startDir);
+                childBranch.startDir = generateNormalDirection(prng, startDir, DIRECTION_MEAN, DIRECTION_VARIANCE);
                 childBranch.startPos = segments[i].start;
                 childBranch.groundZero = groundZero;
                 childBranch.branchProb = branchProb;
                 childBranch.randomSeed = randomSeed + i;
                 childBranch.depth = depth + 1;
-
+                childBranch.branchRadius = branchRadius * (float) (prng.NextDouble() * (MAX_BRANCH_REDUCTION_FACTOR - MIN_BRANCH_REDUCTION_FACTOR) + MIN_BRANCH_REDUCTION_FACTOR);
+                childBranch.maxNumSegments = prng.Next() % (segmentsMax - segmentsMin) + segmentsMin;
                 childBranch.constructLightningBranch();
                 children.Add((i, childBranch));
             }
@@ -77,25 +88,24 @@ public class LightningBranch : MonoBehaviour
         // make new segments if haven't reach the ground
         while (currStartPos.y > groundZero && (isMainChannel || segments.Count < maxNumSegments))
         {
-            LightningSegment seg = new LightningSegment();
+            LightningSegment seg = gameObject.AddComponent<LightningSegment>() as LightningSegment;
             seg.length = ((float)prng.NextDouble()) * (maxSegmentLength - minSegmentLength) + minSegmentLength;
             seg.direction = currDir;
             seg.start = currStartPos;
             seg.lightningMaterial = lightningMaterial;
-
+            seg.cylinderRadius = branchRadius;
             seg.createSegment();
             segments.Add(seg);
-
             currStartPos = seg.start + seg.direction * seg.length;
-            currDir = generateUniformDirection(prng, startDir);
+            currDir = generateUniformDirection(prng, startDir, BRANCH_ANGLE_MIN, BRANCH_ANGLE_MAX);
         }
     }
 
 
-    Vector3 generateUniformDirection(System.Random prng, Vector3 refDir)
+    Vector3 generateNormalDirection(System.Random prng, Vector3 refDir, float mean, float variance)
     {
         float azimuthalAngle = (float)(prng.NextDouble()) * 2.0f * Mathf.PI;
-        float normalRVAngle = generateRandomNormal(prng, DIRECTION_MEAN, Mathf.Sqrt(DIRECTION_VARIANCE)) * Mathf.PI / 180.0f;
+        float normalRVAngle = generateRandomNormal(prng, mean , Mathf.Sqrt(variance));
 
         Vector3 azimuthalVector = Mathf.Cos(azimuthalAngle) * Vector3.forward + Mathf.Sin(azimuthalAngle) * Vector3.right;
         Vector3 newDirVector = Mathf.Cos(normalRVAngle) * Vector3.down + Mathf.Sin(normalRVAngle) * azimuthalVector;
@@ -103,6 +113,21 @@ public class LightningBranch : MonoBehaviour
         var rotate = Quaternion.FromToRotation(Vector3.down, newDirVector);
         return Vector3.Normalize(rotate * refDir);
     }
+
+    Vector3 generateUniformDirection(System.Random prng, Vector3 refDir, float minVal, float maxVal)
+    {
+        float azimuthalAngle = (float)(prng.NextDouble()) * 2.0f * Mathf.PI;
+        float normalRVAngle = ((float) prng.NextDouble() * (maxVal - minVal) + minVal);
+
+        Vector3 azimuthalVector = Mathf.Cos(azimuthalAngle) * Vector3.forward + Mathf.Sin(azimuthalAngle) * Vector3.right;
+        Vector3 newDirVector = Mathf.Cos(normalRVAngle) * Vector3.down + Mathf.Sin(normalRVAngle) * azimuthalVector;
+
+        var rotate = Quaternion.FromToRotation(Vector3.down, newDirVector);
+        return Vector3.Normalize(rotate * refDir);
+    }
+
+
+
 
     float generateRandomNormal(System.Random rand, float mean, float stdev)
     {

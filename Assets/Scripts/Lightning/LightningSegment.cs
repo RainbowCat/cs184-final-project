@@ -13,11 +13,12 @@ public class LightningSegment : MonoBehaviour
 
     public Material lightningMaterial;
 
+    public float cylinderRadius;
+
     Vector3 cylDefaultOrientation = Vector3.up;
-    float cylinderRadius = 1f;
 
     bool isRootSegment;
-    
+
     void Start()
     {
         createSegment();

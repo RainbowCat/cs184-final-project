@@ -451,9 +451,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMainChannel: 1
   maxNumSegments: 10
+  segmentsMax: 20
+  segmentsMin: 10
   maxDepth: 5
-  randomSeed: 0
+  branchRadius: 0.5
+  randomSeed: 12
   startPos: {x: 0, y: 100, z: 0}
-  branchProb: 0.3
+  branchProb: 0.025
   lightningMaterial: {fileID: 2100000, guid: 0a1dbea49aba04ccfaaa36b3a6e9930c, type: 2}
   groundZero: 0
