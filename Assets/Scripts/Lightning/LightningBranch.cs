@@ -15,8 +15,12 @@ public class LightningBranch : MonoBehaviour
 
 
     public float branchRadius;
-    public int randomSeed;
+    public int randomSeed = 0;
+
+    public float lifeFactor;
     public Vector3 startPos;
+
+    public int numReturnStrokes;
     Vector3 startDir = Vector3.down;
     static float DIRECTION_MEAN = 0.179f;
     static float DIRECTION_VARIANCE = 0.1f;
@@ -26,26 +30,45 @@ public class LightningBranch : MonoBehaviour
 
     static float MAX_BRANCH_REDUCTION_FACTOR = 0.6f;
     static float MIN_BRANCH_REDUCTION_FACTOR = 0.45f;
+
+    static float branchSegmentWidthReductionFactor = 0.95f;
+
+
+    // determined via desmos 
+    static float returnStrokeVariance = 0.3f;
+    static float lightningDecayFactor = 5f;
+
+    static float returnStrokeDecayFactor = 0.15f;
+
+    static float propagationSpeed = 10f;
+
+    public static System.Random prng;
     int depth = 0;
-    public float branchProb = 0.0f; // initialize to no branching
+
+    float age = 0;
+    public float maxAge;
+    public float branchProb = 0.05f; // initialize to no branching
+
+    public int branchNumber = 0;
 
     List<LightningSegment> segments = new List<LightningSegment>();
-    List<(int, LightningBranch)> children = new List<(int, LightningBranch)>();
+    List<LightningBranch> children = new List<LightningBranch>();
 
     public Material lightningMaterial;
     public float groundZero; // TODO change to non-variable
+    public float startTime;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        prng = new System.Random(randomSeed);
         constructLightningBranch();
     }
 
     void constructLightningBranch()
     {
-
         // build main branch that reaches the ground
-        var prng = new System.Random(randomSeed);
         buildBranch(prng);
 
         // build child branches
@@ -69,13 +92,23 @@ public class LightningBranch : MonoBehaviour
                 childBranch.startPos = segments[i].start;
                 childBranch.groundZero = groundZero;
                 childBranch.branchProb = branchProb;
-                childBranch.randomSeed = randomSeed + i;
                 childBranch.depth = depth + 1;
-                childBranch.branchRadius = branchRadius * (float)(prng.NextDouble() *
+                childBranch.startTime = startTime;
+                childBranch.maxAge = maxAge;
+                float childBranchWidthReductionFactor =  (float)(prng.NextDouble() *
                                            (MAX_BRANCH_REDUCTION_FACTOR - MIN_BRANCH_REDUCTION_FACTOR) + MIN_BRANCH_REDUCTION_FACTOR);
+                if(isMainChannel) {
+                    childBranch.branchRadius = branchRadius * childBranchWidthReductionFactor;
+                    childBranch.lifeFactor = childBranchWidthReductionFactor * childBranchWidthReductionFactor * lifeFactor;
+                }
+                else {
+                    childBranch.branchRadius = segments[i].cylinderRadius;
+                    childBranch.lifeFactor = lifeFactor;
+                }
+                childBranch.branchNumber = i;
                 childBranch.maxNumSegments = prng.Next() % (segmentsMax - segmentsMin) + segmentsMin;
                 childBranch.constructLightningBranch();
-                children.Add((i, childBranch));
+                children.Add(childBranch);
             }
         }
     }
@@ -91,6 +124,7 @@ public class LightningBranch : MonoBehaviour
         groundZero = Mathf.Min(groundZero, currStartPos.y); // just in case
 
         // make new segments if haven't reach the ground
+        int count = 0;
         while (currStartPos.y > groundZero && (isMainChannel || segments.Count < maxNumSegments))
         {
             LightningSegment seg = gameObject.AddComponent<LightningSegment>() as LightningSegment;
@@ -98,11 +132,19 @@ public class LightningBranch : MonoBehaviour
             seg.direction = currDir;
             seg.start = currStartPos;
             seg.lightningMaterial = lightningMaterial;
-            seg.cylinderRadius = branchRadius;
+            if(isMainChannel || count == 0){
+                seg.cylinderRadius = branchRadius;
+            } 
+            else {
+                seg.cylinderRadius = segments[count - 1].cylinderRadius * branchSegmentWidthReductionFactor;
+            }
+            
+            seg.segmentNumber = count + branchNumber;
             seg.createSegment();
             segments.Add(seg);
             currStartPos = seg.start + seg.direction * seg.length;
             currDir = generateUniformDirection(prng, startDir, BRANCH_ANGLE_MIN, BRANCH_ANGLE_MAX);
+            count++;
         }
     }
 
@@ -140,9 +182,51 @@ public class LightningBranch : MonoBehaviour
         return mean + stdev * randStdNormal; //random normal(mean,stdDev^2)
     }
 
+    public void lightningBranchTick(float newAge){
+        age = newAge - startTime;
+        float brightNess = computeStrokeBrightness();
+        
+        foreach(LightningSegment seg in segments){
+            if(age * propagationSpeed > seg.segmentNumber){
+                seg.setBrightness(brightNess);
+            } 
+        }
+        foreach(LightningBranch child in children){
+            child.lightningBranchTick(newAge);
+        }
+
+    }
+
+    float computeStrokeBrightness(){
+
+        
+        float percentAge = (float) (age) / maxAge;
+        float brightness = Mathf.Exp(- lightningDecayFactor * percentAge);
+        
+
+        if(isMainChannel){
+
+            brightness += returnStrokeVariance + Mathf.Pow(returnStrokeDecayFactor, percentAge) * Mathf.Sin((2 * numReturnStrokes + 1) * Mathf.PI * percentAge);
+        }
+        
+
+        // exp is designed to ensure continuity at percentAge = 1 -- equal to 0 at this time. 
+        return brightness * lifeFactor;
+
+    }
+
     // Update is called once per frame
     void Update()
     {
 
+    }
+    void OnDestroy() {
+        foreach(LightningSegment segment in segments){
+            Destroy(segment);
+        }
+
+        foreach(LightningBranch child in children){
+            Destroy(child);
+        }
     }
 }

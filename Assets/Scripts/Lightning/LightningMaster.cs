@@ -8,34 +8,75 @@ public class LightningMaster : MonoBehaviour
     [Header(headerDecoration + "Main" + headerDecoration)]
 
     // ignored for now, just try to generate one single lightning
-    public float lightningDensity;
-    public float maxTreeDepth; // 10?
-    public float maxBranchFactor; // 2 or 3
+    
+    public Vector3 lightningSpawnMin;
+    public Vector3 lightningSpawnMax;
+
+    public float lightningSpawnFrequency;
+
+    public float groundZero;
+
+    public int ageMin; // in number of frames 20
+
+    public int ageMax; // in number of frames 40
+
+
+    public int time = 0;
+
+    public float initialBranchRadius;
 
     public Material lightningMaterial;
 
-    LightningSegment generateLightningBolt()
-    {
-        LightningSegment root = new LightningSegment();
-        // choose direction for this node
-        // choose branching factor for this node
-        return root;
-    }
+    public int randomSeed = 0;
+
+    static System.Random prng;
+
+    List<LightningBranch> lightnings = new List<LightningBranch>();
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        GameObject initialSegment = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        prng = new System.Random(randomSeed);
+        LightningBranch.prng = prng;
+    }
 
-        initialSegment.transform.position = new Vector3(-2, 1, 0);
-        initialSegment.transform.localScale = new Vector3(0.1f, 5, 0.1f);
-        initialSegment.GetComponent<MeshRenderer>().material = lightningMaterial;
-        // generateLightningBolt();
+    void generateLightningBolt() {
+
+        Vector3 randVec = new Vector3((float) prng.NextDouble(), (float) prng.NextDouble(), (float) prng.NextDouble());
+        Vector3 startPos = Vector3.Scale(randVec, lightningSpawnMax - lightningSpawnMin) + lightningSpawnMin;
+
+        LightningBranch lightning = gameObject.AddComponent<LightningBranch>() as LightningBranch;
+        lightning.isMainChannel = true;
+        lightning.lifeFactor = 1;
+        lightning.lightningMaterial = lightningMaterial;
+        lightning.maxAge = prng.Next()  % (ageMax - ageMin) + ageMin;
+        lightning.numReturnStrokes = prng.Next() % 3 + 1;
+        lightning.startPos = startPos;
+        lightning.branchRadius = initialBranchRadius;
+        lightning.groundZero = groundZero;
+        lightning.startTime = time;
+        lightnings.Add(lightning);
+
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-
+        time += 1;
+        for (int i = 0; i < lightnings.Count; i++){
+            LightningBranch lightning = lightnings[i];
+            if(time > lightning.startTime + lightning.maxAge ){
+                lightnings.RemoveAt(i);
+                i--;
+            }
+            else {
+                lightning.lightningBranchTick(time);
+            }   
+        }
+        if(prng.NextDouble() < lightningSpawnFrequency){
+            generateLightningBolt();
+        }
     }
+
+    
 }

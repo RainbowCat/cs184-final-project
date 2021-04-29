@@ -17,8 +17,11 @@ public class LightningSegment : MonoBehaviour
 
     Vector3 cylDefaultOrientation = Vector3.up;
 
-    bool isRootSegment;
+    public int segmentNumber;
 
+    public GameObject cylinderSegment;
+
+    float storedRadius;
     void Start()
     {
         createSegment();
@@ -27,14 +30,25 @@ public class LightningSegment : MonoBehaviour
     public void createSegment()
     {
         // TODO later add change object name?
-        GameObject initialSegment = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        initialSegment.transform.localScale = new Vector3(cylinderRadius, length / 2.0f, cylinderRadius);
+        
+        cylinderSegment = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        cylinderSegment.transform.localScale = new Vector3(cylinderRadius * 0, length / 2.0f, cylinderRadius * 0);
 
         Vector3 directionNormal = Vector3.Normalize(direction);
-        initialSegment.transform.position = start + directionNormal * length / 2.0f;
+        cylinderSegment.transform.position = start + directionNormal * length / 2.0f;
         Vector3 rotAxisV = Vector3.Normalize(directionNormal + cylDefaultOrientation);
-        initialSegment.transform.rotation = new Quaternion(rotAxisV.x, rotAxisV.y, rotAxisV.z, 0);
-        initialSegment.GetComponent<MeshRenderer>().material = lightningMaterial;
+        cylinderSegment.transform.rotation = new Quaternion(rotAxisV.x, rotAxisV.y, rotAxisV.z, 0);
+        
+
+
+    }
+
+    public void setBrightness(float newBrightness){
+        cylinderSegment.transform.localScale = new Vector3(cylinderRadius * newBrightness, length / 2.0f, cylinderRadius * newBrightness);
+    }
+
+    void OnDestroy() {
+        Destroy(cylinderSegment);
     }
 }
 
