@@ -35,10 +35,10 @@ public class LightningBranch : MonoBehaviour
 
 
     // determined via desmos 
-    static float returnStrokeVariance = 0.3f;
-    static float lightningDecayFactor = 5f;
+    public static float returnStrokeVariance = 0.3f;
+    public static float lightningDecayFactor = 3f;
 
-    static float returnStrokeDecayFactor = 0.15f;
+    public static float returnStrokeDecayFactor = 0.15f;
 
     static float propagationSpeed = 10f;
 
