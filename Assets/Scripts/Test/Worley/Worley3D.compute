@@ -8,15 +8,15 @@ int numPoints;
 int resolution;
 RWTexture3D<float4> values;
 
-[numthreads(threadGroupSize,threadGroupSize,threadGroupSize)]
-void CSMain (uint3 id : SV_DispatchThreadID)
-{
-    float3 pos = id / (float)resolution;
-    float minD = 1;
+[numthreads(threadGroupSize, threadGroupSize, threadGroupSize)] void
+CSMain(uint3 id
+       : SV_DispatchThreadID) {
+  float3 pos = id / (float)resolution;
+  float minD = 1;
 
-    for (int i = 0; i < numPoints; i ++) {
-        float d = length(pos - points[i]);
-        minD = min(minD, d);
-    }
-    values[id] = minD;
+  for (int i = 0; i < numPoints; i++) {
+    float d = length(pos - points[i]);
+    minD = min(minD, d);
+  }
+  values[id] = minD;
 }
