@@ -1,29 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomUtils;
 
 public class LightningMaster : MonoBehaviour {
     const string headerDecoration = " --- ";
     [Header(headerDecoration + "Main" + headerDecoration)]
 
     // ignored for now, just try to generate one single lightning
+    public Vector3 MinLightningSpawn; // ???: why is this a vec3?
+    public Vector3 MaxLightningSpawn; // ???: why is this a vec3?
+    public float LightningSpawnFrequency;
+    public float GroundZero;
+    public int MinAge; // in number of frames 20
 
-    public Vector3 lightningSpawnMin;
-    public Vector3 lightningSpawnMax;
-
-    public float lightningSpawnFrequency;
-
-    public float groundZero;
-
-    public int ageMin; // in number of frames 20
-
-    public int ageMax; // in number of frames 40
-
-
+    public int MaxAge; // in number of frames 40
     public int time = 0;
-
     public float initialBranchRadius;
-
     public Material lightningMaterial;
 
     public int randomSeed = 0;
@@ -39,20 +32,22 @@ public class LightningMaster : MonoBehaviour {
     }
 
     void generateLightningBolt() {
+        LightningBranch lightning = gameObject.AddComponent<LightningBranch>() as LightningBranch;
 
         Vector3 randVec = new Vector3((float) prng.NextDouble(), (float) prng.NextDouble(), (float) prng.NextDouble());
-        Vector3 startPos = Vector3.Scale(randVec, lightningSpawnMax - lightningSpawnMin) + lightningSpawnMin;
 
-        LightningBranch lightning = gameObject.AddComponent<LightningBranch>() as LightningBranch;
         lightning.isMainChannel = true;
-        lightning.lifeFactor = 1;
-        lightning.lightningMaterial = lightningMaterial;
-        lightning.maxLifespan = prng.Next() % (ageMax - ageMin) + ageMin;
-        lightning.numReturnStrokes = prng.Next() % 3 + 1;
-        lightning.startPos = startPos;
-        lightning.BranchWidth = initialBranchRadius;
-        lightning.groundZero = groundZero;
+        lightning.startPos = LightningUtils.randomVec3(MinLightningSpawn, MaxLightningSpawn, prng);
         lightning.startTime = time;
+        lightning.BranchWidth = initialBranchRadius;
+
+        lightning.lifeFactor = 1;
+        lightning.maxLifespan = prng.Next() % (MaxAge - MinAge) + MinAge;
+        lightning.numReturnStrokes = prng.Next() % 3 + 1;
+
+        lightning.GroundZero = GroundZero;
+        lightning.lightningMaterial = lightningMaterial;
+
         lightnings.Add(lightning);
 
     }
@@ -69,7 +64,7 @@ public class LightningMaster : MonoBehaviour {
                 lightning.lightningBranchTick(time);
             }
         }
-        if (prng.NextDouble() < lightningSpawnFrequency) {
+        if (prng.NextDouble() < LightningSpawnFrequency) {
             generateLightningBolt();
         }
     }
