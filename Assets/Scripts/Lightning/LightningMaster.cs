@@ -50,7 +50,7 @@ public class LightningMaster : MonoBehaviour {
         lightning.maxLifespan = prng.Next() % (ageMax - ageMin) + ageMin;
         lightning.numReturnStrokes = prng.Next() % 3 + 1;
         lightning.startPos = startPos;
-        lightning.BranchRadius = initialBranchRadius;
+        lightning.BranchWidth = initialBranchRadius;
         lightning.groundZero = groundZero;
         lightning.startTime = time;
         lightnings.Add(lightning);

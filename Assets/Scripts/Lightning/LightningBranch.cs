@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 // A lightning branch is a list of segments that are chained to form one line
 public class LightningBranch : MonoBehaviour {
@@ -25,18 +26,17 @@ public class LightningBranch : MonoBehaviour {
     float lifespan = 0;
     Vector3 startDir = Vector3.down;
 
-    /** adjustables **/
-    public bool isMainChannel; // TODO change to non-variable
-    public int maxNumSegments = 10;
+    /** adjustable parameters **/
+    public bool isMainChannel; // TODO change to non-variable?
+    public Vector3 startPos;
+    public float BranchWidth;
+    public int MaxNumSegments = 10;
     public int segmentsMax = 20;
     public int segmentsMin = 10;
     public int maxDepth = 5;
-
-    public float BranchRadius;
     public int randomSeed = 0;
-
     public float lifeFactor;
-    public Vector3 startPos;
+
 
     public int numReturnStrokes;
 
@@ -72,22 +72,28 @@ public class LightningBranch : MonoBehaviour {
 
         // make new segments if haven't reach the ground
         int count = 0;
-        while (currStartPos.y > groundZero && (isMainChannel || segments.Count < maxNumSegments)) {
-            LightningSegment seg = gameObject.AddComponent<LightningSegment>() as LightningSegment;
-            seg.length = ((float) prng.NextDouble()) * (MaxSegmentLength - MinSegmentLength) + MinSegmentLength;
-            seg.direction = currDir;
-            seg.start = currStartPos;
-            seg.lightningMaterial = lightningMaterial;
-            if (isMainChannel || count == 0) {
-                seg.cylinderRadius = BranchRadius;
-            } else {
-                seg.cylinderRadius = segments[count - 1].cylinderRadius * BranchSegmentWidthReductionFactor;
-            }
+        while (currStartPos.y > groundZero && (isMainChannel || segments.Count < MaxNumSegments)) {
+            LightningSegment currSeg = gameObject.AddComponent<LightningSegment>() as LightningSegment;
 
-            seg.segmentNumber = count + branchNumber;
-            seg.createSegment();
-            segments.Add(seg);
-            currStartPos = seg.start + seg.direction * seg.length;
+            // initialize params of current segment
+            currSeg.startPos = currStartPos;
+            currSeg.direction = currDir;
+            currSeg.length = Utils.randomWith(MinSegmentLength, MaxSegmentLength, prng);
+            currSeg.lightningMaterial = lightningMaterial;
+            if (isMainChannel || count == 0) {
+                currSeg.width = BranchWidth;
+            } else {
+                // segments become smaller and smaller
+                currSeg.width = segments[count - 1].width * BranchSegmentWidthReductionFactor;
+            }
+            currSeg.segmentNumber = count + branchNumber;
+            currSeg.createSegment();
+
+            // assign created segment to THIS branch
+            segments.Add(currSeg);
+
+            // update
+            currStartPos = currSeg.startPos + currSeg.length * currSeg.direction;
             currDir = generateUniformDirection(prng, startDir, MinBranchAngle, MaxBranchAngle);
             count++;
         }
@@ -97,72 +103,52 @@ public class LightningBranch : MonoBehaviour {
 
         float perSegmentBranchProb = branchProb;
 
+        // for each segment of THIS branch (other than first segment), create sub-branches that branches out 
         for (int i = 1; i < segments.Count; i++) {
+            // create sub-branch if conditions satisfied
             if ((float) (prng.NextDouble()) < perSegmentBranchProb && depth < maxDepth) {
                 LightningBranch childBranch = gameObject.AddComponent<LightningBranch>() as LightningBranch;
+
+                // initialize params of current sub-branch
                 childBranch.isMainChannel = false;
-                childBranch.lightningMaterial = lightningMaterial;
-                childBranch.startDir = generateNormalDirection(prng, startDir, DirectionMean, DirectionVariance);
-                childBranch.startPos = segments[i].start;
-                childBranch.groundZero = groundZero;
-                childBranch.branchProb = branchProb;
                 childBranch.depth = depth + 1;
+                childBranch.startPos = segments[i].startPos; // branch out from the tip of ith segment of THIS branch
+                childBranch.startDir = Utils.generateNormalDirection(startDir, DirectionMean, DirectionVariance, prng);
+
+                // inherit parameters from parent branch, i.e. THIS branch
+                childBranch.branchProb = branchProb;
+                childBranch.groundZero = groundZero;
                 childBranch.startTime = startTime;
                 childBranch.maxLifespan = maxLifespan;
-                float childBranchWidthReductionFactor = (float) (prng.NextDouble() *
-                                           (BranchReductionFactorMax - MinBranchReductionFactor) + MinBranchReductionFactor);
+                childBranch.lightningMaterial = lightningMaterial;
+
+                float childBranchWidthReductionFactor = Utils.randomWith(MinBranchReductionFactor, MaxBranchReductionFactor, prng);
                 if (isMainChannel) {
-                    childBranch.BranchRadius = BranchRadius * childBranchWidthReductionFactor;
+                    // becomes smaller and dies out if it's the main channel
+                    childBranch.BranchWidth = childBranchWidthReductionFactor * BranchWidth;
                     childBranch.lifeFactor = childBranchWidthReductionFactor * childBranchWidthReductionFactor * lifeFactor;
                 } else {
-                    childBranch.BranchRadius = segments[i].cylinderRadius;
+                    // the sub-branches has same params as the segment it branches out from
+                    childBranch.BranchWidth = segments[i].width;
                     childBranch.lifeFactor = lifeFactor;
                 }
                 childBranch.branchNumber = i;
-                childBranch.maxNumSegments = prng.Next() % (segmentsMax - segmentsMin) + segmentsMin;
+                childBranch.MaxNumSegments = segmentsMin + prng.Next() % (segmentsMax - segmentsMin);
                 childBranch.constructLightningBranch();
+
+                // assign created sub-branch to THIS branch
                 children.Add(childBranch);
             }
         }
     }
 
-    Vector3 generateNormalDirection(System.Random prng, Vector3 refDir, float mean, float variance) {
-        float azimuthalAngle = (float) (prng.NextDouble()) * 2.0f * Mathf.PI;
-        float normalRVAngle = generateRandomNormal(prng, mean, Mathf.Sqrt(variance));
-
-        Vector3 azimuthalVector = Mathf.Cos(azimuthalAngle) * Vector3.forward + Mathf.Sin(azimuthalAngle) * Vector3.right;
-        Vector3 newDirVector = Mathf.Cos(normalRVAngle) * Vector3.down + Mathf.Sin(normalRVAngle) * azimuthalVector;
-
-        var rotate = Quaternion.FromToRotation(Vector3.down, newDirVector);
-        return Vector3.Normalize(rotate * refDir);
-    }
-
-    Vector3 generateUniformDirection(System.Random prng, Vector3 refDir, float minVal, float maxVal) {
-        float azimuthalAngle = (float) (prng.NextDouble()) * 2.0f * Mathf.PI;
-        float normalRVAngle = ((float) prng.NextDouble() * (maxVal - minVal) + minVal);
-
-        Vector3 azimuthalVector = Mathf.Cos(azimuthalAngle) * Vector3.forward + Mathf.Sin(azimuthalAngle) * Vector3.right;
-        Vector3 newDirVector = Mathf.Cos(normalRVAngle) * Vector3.down + Mathf.Sin(normalRVAngle) * azimuthalVector;
-
-        var rotate = Quaternion.FromToRotation(Vector3.down, newDirVector);
-        return Vector3.Normalize(rotate * refDir);
-    }
-
-    float generateRandomNormal(System.Random rand, float mean, float stdev) {
-        float u1 = (float) (1.0 - rand.NextDouble()); //uniform(0,1] random doubles
-        float u2 = (float) (1.0 - rand.NextDouble());
-        float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) *
-                     Mathf.Sin(2.0f * Mathf.PI * u2); //random normal(0,1)
-        return mean + stdev * randStdNormal; //random normal(mean,stdDev^2)
-    }
-
     public void lightningBranchTick(float newLifespan) {
         lifespan = newLifespan - startTime;
-        float brightNess = computeStrokeBrightness();
+        float brightness = computeStrokeBrightness();
 
         foreach (LightningSegment seg in segments) {
             if (lifespan * PropagationSpeed > seg.segmentNumber) {
-                seg.setBrightness(brightNess);
+                seg.setBrightness(brightness);
             }
         }
         foreach (LightningBranch child in children) {
@@ -171,13 +157,11 @@ public class LightningBranch : MonoBehaviour {
     }
 
     float computeStrokeBrightness() {
-        float percentLifespan = (float) (lifespan) / maxLifespan;
+        float percentLifespan = (float) lifespan / maxLifespan;
         float brightness = Mathf.Exp(-LightningDecayFactor * percentLifespan);
-
         if (isMainChannel) {
             brightness += ReturnStrokeVariance + Mathf.Pow(ReturnStrokeDecayFactor, percentLifespan) * Mathf.Sin((2 * numReturnStrokes + 1) * Mathf.PI * percentLifespan);
         }
-
         // exp is designed to ensure continuity at percentLifespan = 1 -- equal to 0 at this time. 
         return brightness * lifeFactor;
     }
@@ -192,13 +176,13 @@ public class LightningBranch : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
     }
+
+    // Deconstructor
     void OnDestroy() {
         foreach (LightningSegment segment in segments) {
             Destroy(segment);
         }
-
         foreach (LightningBranch child in children) {
             Destroy(child);
         }
