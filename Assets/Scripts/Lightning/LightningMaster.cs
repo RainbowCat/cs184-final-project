@@ -32,23 +32,23 @@ public class LightningMaster : MonoBehaviour {
     }
 
     void generateLightningBolt() {
-        LightningBranch lightning = gameObject.AddComponent<LightningBranch>() as LightningBranch;
+        LightningBranch lightningStrike = gameObject.AddComponent<LightningBranch>() as LightningBranch;
 
         Vector3 randVec = new Vector3((float) prng.NextDouble(), (float) prng.NextDouble(), (float) prng.NextDouble());
 
-        lightning.isMainChannel = true;
-        lightning.startPos = LightningUtils.randomVec3(MinLightningSpawn, MaxLightningSpawn, prng);
-        lightning.startTime = time;
-        lightning.BranchWidth = initialBranchRadius;
+        lightningStrike.isMainChannel = true;
+        lightningStrike.startPos = LightningUtils.randomVec3(MinLightningSpawn, MaxLightningSpawn, prng);
+        lightningStrike.startTime = time;
+        lightningStrike.BranchWidth = initialBranchRadius;
 
-        lightning.lifeFactor = 1;
-        lightning.maxLifespan = prng.Next() % (MaxAge - MinAge) + MinAge;
-        lightning.numReturnStrokes = prng.Next() % 3 + 1;
+        lightningStrike.lifeFactor = 1;
+        lightningStrike.maxLifespan = prng.Next() % (MaxAge - MinAge) + MinAge;
+        lightningStrike.numReturnStrokes = prng.Next() % 3 + 1;
 
-        lightning.GroundZero = GroundZero;
-        lightning.lightningMaterial = lightningMaterial;
+        lightningStrike.GroundZero = GroundZero;
+        lightningStrike.lightningMaterial = lightningMaterial;
 
-        lightnings.Add(lightning);
+        lightnings.Add(lightningStrike);
 
     }
 
