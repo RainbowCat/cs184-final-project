@@ -27,7 +27,7 @@ public class LightningSegment : MonoBehaviour {
     }
 
     public void setBrightness(float newBrightness) {
-        cylinderObject.transform.localScale = new Vector3(width * newBrightness, length / 2.0f, width * newBrightness);
+        cylinderObject.transform.localScale = new Vector3(width * newBrightness, length / 2.0f, width * newBrightness); // changes width of cylinder, for now
     }
 
     /** Unity **/
@@ -35,7 +35,7 @@ public class LightningSegment : MonoBehaviour {
         createSegment();
     }
 
-    void OnDestroy() {
+    public void destroySegment() {
         Destroy(cylinderObject);
     }
 }

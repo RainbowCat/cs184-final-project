@@ -55,6 +55,7 @@ public class LightningMaster : MonoBehaviour {
             LightningBranch lightning = lightnings[i];
             if (time > lightning.startTime + lightning.maxLifespan) {
                 lightnings.RemoveAt(i); // TODO call destroy
+                lightning.destroyLightning();
                 i--;
             } else {
                 lightning.lightningStrokeFlicker(time);

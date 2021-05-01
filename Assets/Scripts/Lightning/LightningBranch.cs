@@ -166,6 +166,7 @@ public class LightningBranch : MonoBehaviour {
     }
 
     float computeStrokeBrightness() {
+        // sinusoidal decaying exponential for brightness
         float percentAge = (float) age / maxLifespan;
         float brightness = Mathf.Exp(-LightningDecayFactor * percentAge);
         if (isMainChannel) {
@@ -202,12 +203,12 @@ public class LightningBranch : MonoBehaviour {
     }
 
     // Deconstructor
-    void OnDestroy() {
+    public void destroyLightning() {
         foreach (LightningSegment segment in segments) {
-            Destroy(segment);
+            segment.destroySegment();
         }
         foreach (LightningBranch child in children) {
-            Destroy(child);
+            child.destroyLightning();
         }
     }
 }
