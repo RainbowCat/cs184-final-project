@@ -12,7 +12,7 @@ public class LightningBranch : MonoBehaviour {
     // set up variables
     public int randomSeed = 0;
     public System.Random prng;
-    public static float GroundZero = 0.0f;
+    public float GroundZero = 0.0f;
 
     // branch variables
     public bool isMainChannel; // TODO change to non-variable?
@@ -58,7 +58,7 @@ public class LightningBranch : MonoBehaviour {
     void initializeBranch(
         bool isMainChannel,
         int depth,
-        Vector3 groundZero,
+        float groundZero,
         Vector3 startPos,
         Vector3 startDir,
         float startTime,
@@ -107,7 +107,7 @@ public class LightningBranch : MonoBehaviour {
                 // segments become smaller and smaller
                 currSeg.width = segments[count - 1].width * BranchSegmentWidthReductionFactor;
             }
-            currSeg.segmentNumber = broundNumber + count;
+            currSeg.segmentNumber = branchNumber + count;
             currSeg.createSegment();
 
             // assign created segment to THIS branch
