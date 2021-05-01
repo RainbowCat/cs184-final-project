@@ -6,49 +6,81 @@ using CustomUtils;
 // A lightning branch is a list of segments that are chained to form one line
 public class LightningBranch : MonoBehaviour {
     /** constants **/
-    public static float DirectionMean = 0.179f;
-    public static float DirectionVariance = 0.1f;
-    public static float MinSegmentLength = 1f;
-    public static float MaxSegmentLength = 2.5f;
-    public static float MinBranchAngle = 0.18f;
-    public static float MaxBranchAngle = 0.75f;
-    public static float MinBranchReductionFactor = 0.45f;
-    public static float MaxBranchReductionFactor = 0.6f;
-    public static float BranchSegmentWidthReductionFactor = 0.95f;
-    public static float ReturnStrokeVariance = 0.3f; // determined via desmos
-    public static float LightningDecayFactor = 3f; // determined via desmos
-    public static float ReturnStrokeDecayFactor = 0.15f; // determined via desmos
-    public static float PropagationSpeed = 10f;
-    public static System.Random prng;
+    static float DirectionMean = 0.179f;
+    static float DirectionVariance = 0.1f;
 
-    // private variables
-    int depth = 0;
-    float lifespan = 0;
-    Vector3 startDir = Vector3.down;
 
-    /** adjustable parameters **/
-    public float GroundZero = 0.0f; // TODO hide in Unity?
+
+
+
+    /** private variables **/
+    //public to workaround Unity
+
+    // set up variables
+    public int randomSeed = 0;
+    public System.Random prng;
+    public static float GroundZero = 0.0f;
+
+    // branch variables
     public bool isMainChannel; // TODO change to non-variable?
     public Vector3 startPos;
-    public float BranchWidth;
-    public int MaxNumSegments = 10;
-    public int segmentsMax = 20;
-    public int segmentsMin = 10;
-    public int maxDepth = 5;
-    public int randomSeed = 0;
-    public float lifeFactor;
-    public int numReturnStrokes;
+    public Vector3 startDir = Vector3.down;
+    public float startTime;
+    public float age = 0;
 
-    public float maxLifespan;
-    public float branchProb = 0.05f; // initialize to no branching
-
-    public int branchNumber = 0;
+    // geometry
 
     List<LightningSegment> segments = new List<LightningSegment>();
+    public int MaxNumSegments = 10;
+    static float MinSegmentLength = 1f;
+    static float MaxSegmentLength = 2.5f;
+    static float MinSegmentAngle = 0.18f;
+    static float MaxSegmentAngle = 0.75f;
+    public int segmentsMax = 20;
+    public int segmentsMin = 10;
     List<LightningBranch> children = new List<LightningBranch>();
+    public int branchNumber = 0; // branch ID
+    public float branchProb = 0.05f; // initialize to no branching
+    public int depth = 0;
+    public int maxDepth = 5;
 
+    // apperance
+    public float BranchWidth;
+    static float BranchSegmentWidthReductionFactor = 0.95f;
     public Material lightningMaterial;
-    public float startTime;
+
+    // animation
+    public float maxLifespan;
+    public float lifeFactor;
+    public int numReturnStrokes;
+    static float ReturnStrokeVariance = 0.3f; // determined via desmos
+    static float LightningDecayFactor = 3f; // determined via desmos
+    static float ReturnStrokeDecayFactor = 0.15f; // determined via desmos
+    static float PropagationSpeed = 10.0f;
+
+    // glow
+    static float MinGlowReductionFactor = 0.45f;
+    static float MaxGlowReductionFactor = 0.6f;
+
+    void initializeBranch(
+        bool isMainChannel,
+        int depth,
+        Vector3 groundZero,
+        Vector3 startPos,
+        Vector3 startDir,
+        float startTime,
+        float lifespan,
+        Material material
+        ) {
+        this.isMainChannel = isMainChannel;
+        this.depth = depth;
+        this.GroundZero = groundZero;
+        this.startPos = startPos;
+        this.startDir = startDir;
+        this.startTime = startTime;
+        this.maxLifespan = lifespan;
+        this.lightningMaterial = material;
+    }
 
     void constructLightningBranch() {
         // build main branch that reaches the ground
@@ -56,14 +88,12 @@ public class LightningBranch : MonoBehaviour {
 
         // build child branches
         buildChildrenBranches(prng);
-
     }
 
     void buildBranch(System.Random prng) {
-        // if (isMainChannel)
-        // {
-        //     startDir = Vector3.down;
-        // }
+        if (isMainChannel) {
+            startDir = Vector3.down;
+        }
         Vector3 currDir = startDir;
         Vector3 currStartPos = startPos;
         GroundZero = Mathf.Min(GroundZero, currStartPos.y); // just in case
@@ -84,7 +114,7 @@ public class LightningBranch : MonoBehaviour {
                 // segments become smaller and smaller
                 currSeg.width = segments[count - 1].width * BranchSegmentWidthReductionFactor;
             }
-            currSeg.segmentNumber = count + branchNumber;
+            currSeg.segmentNumber = broundNumber + count;
             currSeg.createSegment();
 
             // assign created segment to THIS branch
@@ -92,7 +122,7 @@ public class LightningBranch : MonoBehaviour {
 
             // update
             currStartPos = currSeg.startPos + currSeg.length * currSeg.direction;
-            currDir = LightningUtils.generateUniformDirection(startDir, MinBranchAngle, MaxBranchAngle, prng);
+            currDir = LightningUtils.generateUniformDirection(startDir, MinSegmentAngle, MaxSegmentAngle, prng);
             count++;
         }
     }
@@ -121,7 +151,7 @@ public class LightningBranch : MonoBehaviour {
                 childBranch.lightningMaterial = lightningMaterial;
 
                 // FIXME: these equations are for glow, not cylinder radius
-                float childBranchWidthReductionFactor = LightningUtils.randomFloat(MinBranchReductionFactor, MaxBranchReductionFactor, prng);
+                float childBranchWidthReductionFactor = LightningUtils.randomFloat(MinGlowReductionFactor, MaxGlowReductionFactor, prng);
                 if (isMainChannel) {
                     // becomes smaller and dies out if it's the main channel
                     childBranch.BranchWidth = childBranchWidthReductionFactor * BranchWidth;
@@ -142,28 +172,28 @@ public class LightningBranch : MonoBehaviour {
         }
     }
 
-    public void lightningBranchTick(float newLifespan) {
-        lifespan = newLifespan - startTime;
+    float computeStrokeBrightness() {
+        float percentAge = (float) age / maxLifespan;
+        float brightness = Mathf.Exp(-LightningDecayFactor * percentAge);
+        if (isMainChannel) {
+            brightness += ReturnStrokeVariance + Mathf.Pow(ReturnStrokeDecayFactor, percentAge) * Mathf.Sin((2 * numReturnStrokes + 1) * Mathf.PI * percentAge);
+        }
+        // exp is designed to ensure continuity at percentAge = 1 -> brightness = 0 
+        return brightness * lifeFactor;
+    }
+
+    public void lightningStrokeFlicker(float currTime) {
+        age = currTime - startTime;
         float brightness = computeStrokeBrightness();
 
         foreach (LightningSegment seg in segments) {
-            if (lifespan * PropagationSpeed > seg.segmentNumber) {
+            if (age * PropagationSpeed > seg.segmentNumber) {
                 seg.setBrightness(brightness);
             }
         }
         foreach (LightningBranch child in children) {
-            child.lightningBranchTick(newLifespan);
+            child.lightningStrokeFlicker(currTime);
         }
-    }
-
-    float computeStrokeBrightness() {
-        float percentLifespan = (float) lifespan / maxLifespan;
-        float brightness = Mathf.Exp(-LightningDecayFactor * percentLifespan);
-        if (isMainChannel) {
-            brightness += ReturnStrokeVariance + Mathf.Pow(ReturnStrokeDecayFactor, percentLifespan) * Mathf.Sin((2 * numReturnStrokes + 1) * Mathf.PI * percentLifespan);
-        }
-        // exp is designed to ensure continuity at percentLifespan = 1 -- equal to 0 at this time. 
-        return brightness * lifeFactor;
     }
 
     /** Unity **/
