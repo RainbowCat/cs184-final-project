@@ -10,13 +10,9 @@ public class LightningSegment : MonoBehaviour {
     public Vector3 direction;
     public float width;
     public float length;
-
     public Material lightningMaterial;
-
     Vector3 DefaultOrientation = Vector3.up;
-
     public int segmentNumber;
-
     public GameObject cylinderObject; // the cylinder game object in Unity that represents THIS segment
 
     public void createSegment() {

@@ -9,13 +9,6 @@ public class LightningBranch : MonoBehaviour {
     static float DirectionMean = 0.179f;
     static float DirectionVariance = 0.1f;
 
-
-
-
-
-    /** private variables **/
-    //public to workaround Unity
-
     // set up variables
     public int randomSeed = 0;
     public System.Random prng;
