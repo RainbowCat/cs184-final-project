@@ -18,12 +18,11 @@ public class LightningMaster : MonoBehaviour {
     public Material lightningMaterial;
     public int randomSeed = 0;
 
-    static System.Random prng;
+    System.Random prng;
     List<LightningBranch> lightnings = new List<LightningBranch>();
 
     void generateLightningBolt() {
         LightningBranch lightningStrike = gameObject.AddComponent<LightningBranch>() as LightningBranch;
-
         lightningStrike.isMainChannel = true;
         lightningStrike.startPos = LightningUtils.randomVec3(MinSpawnPos, MaxSpawnPos, prng);
         lightningStrike.startTime = time;
@@ -44,7 +43,8 @@ public class LightningMaster : MonoBehaviour {
 
     // Start is called before the first frame update
     public void Start() {
-        // LightningBranch.prng = new System.Random(randomSeed);
+        prng = new System.Random(randomSeed);
+        LightningBranch.prng = prng;
         // generateLightningBolt();
     }
 

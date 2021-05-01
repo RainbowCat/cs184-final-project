@@ -11,7 +11,7 @@ public class LightningBranch : MonoBehaviour {
 
     // set up variables
     public int randomSeed = 0;
-    public System.Random prng;
+    public static System.Random prng;
     public float GroundZero = 0.0f;
 
     // branch variables
