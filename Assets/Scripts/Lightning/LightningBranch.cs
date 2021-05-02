@@ -210,5 +210,6 @@ public class LightningBranch : MonoBehaviour {
         foreach (LightningBranch child in children) {
             child.destroyLightning();
         }
+        Destory(this);
     }
 }
