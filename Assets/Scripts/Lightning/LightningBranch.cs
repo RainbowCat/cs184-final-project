@@ -212,4 +212,14 @@ public class LightningBranch : MonoBehaviour {
         }
         Destroy(this);
     }
+
+    void OnDestroy() {
+        foreach (LightningSegment segment in segments) {
+            segment.destroySegment();
+        }
+        foreach (LightningBranch child in children) {
+            child.destroyLightning();
+        }
+        Destroy(this);
+    }
 }
