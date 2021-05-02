@@ -37,7 +37,7 @@ public class LightningSegment : MonoBehaviour {
 
     public void destroySegment() {
         Destroy(cylinderObject);
-        Destory(this);
+        Destroy(this);
     }
 }
 
