@@ -25,7 +25,7 @@ public class LightningMaster : MonoBehaviour {
         LightningBranch lightningStrike = gameObject.AddComponent<LightningBranch>() as LightningBranch;
         lightningStrike.isMainChannel = true;
         lightningStrike.startPos = LightningUtils.randomVec3(MinSpawnPos, MaxSpawnPos, prng);
-        lightningStrike.startTime = time;
+        lightningStrike.startTime = Time.time;
         lightningStrike.BranchWidth = InitialBranchRadius;
 
         lightningStrike.lifeFactor = 1;
@@ -48,23 +48,33 @@ public class LightningMaster : MonoBehaviour {
         // generateLightningBolt();
     }
 
+    // match with CloudMaster
+    static float transition_time = 20;
+    static float stay_time = 10.0f;
+    static float period = transition_time * 2 + stay_time * 2;
+
     // Update is called once per frame
     public void Update() {
-        time += 1;
-        for (int i = 0; i < lightnings.Count; i++) {
-            LightningBranch lightning = lightnings[i];
-            if (time > lightning.startTime + lightning.maxLifespan) {
-                lightnings.RemoveAt(i); // TODO call destroy
+        // time += 1;
+        if (Time.time % period < stay_time) {
+            for (int i = 0; i < lightnings.Count; i++) {
+                LightningBranch lightning = lightnings[i];
+                if (Time.time > lightning.startTime + lightning.maxLifespan) {
+                    lightning.destroyLightning();
+                    i--;
+                } else {
+                    lightning.lightningStrokeFlicker(Time.time);
+                }
+            }
+            if (prng.NextDouble() < SpawnProb) {
+                generateLightningBolt();
+            }
+        } else {
+            for (int i = 0; i < lightnings.Count; i++) {
+                LightningBranch lightning = lightnings[i];
                 lightning.destroyLightning();
                 i--;
-            } else {
-                lightning.lightningStrokeFlicker(time);
             }
         }
-        if (prng.NextDouble() < SpawnProb) {
-            generateLightningBolt();
-        }
     }
-
-
 }

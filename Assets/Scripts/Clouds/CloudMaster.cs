@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode, ImageEffectAllowedInSceneView]
-public class CloudMaster : MonoBehaviour
-{
+public class CloudMaster : MonoBehaviour {
     //At the beginning, set the variables to the Stormy cloud value, and change to cloudy, and then sunny.
     const string headerDecoration = " --- ";
     [Header(headerDecoration + "Main" + headerDecoration)]
@@ -74,20 +73,21 @@ public class CloudMaster : MonoBehaviour
     Color color_blue = new Color(0.44f, 0.64f, 0.8f, 1.0f);
     Color color_grey = new Color(0.25f, 0.25f, 0.25f, 1.0f);
 
+    // match with LightningMaster
     static float transition_time = 20;
     static float stay_time = 10.0f;
     static float period = transition_time * 2 + stay_time * 2;
+
     float scaleStep = Mathf.Abs(stormy_cloudScale - sunny_cloudScale) / transition_time;
     float densityStep = Mathf.Abs(stormy_density - sunny_density) / transition_time;
     float offsetStep = Mathf.Abs(stormy_densityOffset - sunny_densityOffset) / transition_time;
     float colorStepR;
     float colorStepB;
     float colorStepG;
-    void Awake()
-    {
+
+    void Awake() {
         var weatherMapGen = FindObjectOfType<WeatherMap>();
-        if (Application.isPlaying)
-        {
+        if (Application.isPlaying) {
             weatherMapGen.UpdateMap();
         }
         colorStepR = Mathf.Abs(color_grey.r - color_blue.r) / transition_time;
@@ -95,13 +95,11 @@ public class CloudMaster : MonoBehaviour
         colorStepG = Mathf.Abs(color_grey.g - color_blue.g) / transition_time;
     }
 
-    void Start()
-    {
+    void Start() {
         setToStormy();
     }
 
-    void setToStormy()
-    {
+    void setToStormy() {
         cloudScale = stormy_cloudScale;
         densityMultiplier = stormy_density;
         densityOffset = stormy_densityOffset;
@@ -110,8 +108,7 @@ public class CloudMaster : MonoBehaviour
         currentWeather = WeatherStage.Stormy;
     }
 
-    void setToSunny()
-    {
+    void setToSunny() {
         cloudScale = sunny_cloudScale;
         densityMultiplier = sunny_density;
         densityOffset = sunny_densityOffset;
@@ -120,8 +117,7 @@ public class CloudMaster : MonoBehaviour
         currentWeather = WeatherStage.Sunny;
     }
 
-    void Update()
-    {
+    void Update() {
         if (Time.time % period < stay_time) // stage 1
         {
             setToStormy();
@@ -148,14 +144,12 @@ public class CloudMaster : MonoBehaviour
             colB.b += colorStepB * Time.deltaTime;
             colB.g += colorStepG * Time.deltaTime;
             // check if reached sunny
-            if ((cloudScale <= sunny_cloudScale) | (densityMultiplier <= sunny_density) | (densityOffset <= sunny_densityOffset))
-            {
+            if ((cloudScale <= sunny_cloudScale) | (densityMultiplier <= sunny_density) | (densityOffset <= sunny_densityOffset)) {
                 setToSunny();
                 currentWeather = WeatherStage.Sunny;
             }
-        }
-        else // stage 3
-        {
+        } else // stage 3
+          {
             // towards stormy
             cloudScale += scaleStep * Time.deltaTime;
             densityMultiplier += densityStep * Time.deltaTime;
@@ -168,8 +162,7 @@ public class CloudMaster : MonoBehaviour
             colB.b -= colorStepB * Time.deltaTime;
             colB.g -= colorStepG * Time.deltaTime;
             // check if reached stormy
-            if ((cloudScale >= stormy_cloudScale) | (densityMultiplier >= stormy_density) | (densityOffset >= stormy_densityOffset))
-            {
+            if ((cloudScale >= stormy_cloudScale) | (densityMultiplier >= stormy_density) | (densityOffset >= stormy_densityOffset)) {
                 setToStormy();
                 currentWeather = WeatherStage.Stormy;
             }
@@ -177,12 +170,10 @@ public class CloudMaster : MonoBehaviour
     }
 
     [ImageEffectOpaque]
-    private void OnRenderImage(RenderTexture src, RenderTexture dest)
-    {
+    private void OnRenderImage(RenderTexture src, RenderTexture dest) {
 
         // Validate inputs
-        if (material == null || material.shader != shader)
-        {
+        if (material == null || material.shader != shader) {
             material = new Material(shader);
         }
         numStepsLight = Mathf.Max(1, numStepsLight);
@@ -197,8 +188,7 @@ public class CloudMaster : MonoBehaviour
 
         // Weathermap
         var weatherMapGen = FindObjectOfType<WeatherMap>();
-        if (!Application.isPlaying)
-        {
+        if (!Application.isPlaying) {
             weatherMapGen.UpdateMap();
         }
         material.SetTexture("WeatherMap", weatherMapGen.weatherMap);
@@ -250,19 +240,16 @@ public class CloudMaster : MonoBehaviour
         Graphics.Blit(src, dest, material);
     }
 
-    void SetDebugParams()
-    {
+    void SetDebugParams() {
 
         var noise = FindObjectOfType<NoiseGenerator>();
         var weatherMapGen = FindObjectOfType<WeatherMap>();
 
         int debugModeIndex = 0;
-        if (noise.viewerEnabled)
-        {
+        if (noise.viewerEnabled) {
             debugModeIndex = (noise.activeTextureType == NoiseGenerator.CloudNoiseType.Shape) ? 1 : 2;
         }
-        if (weatherMapGen.viewerEnabled)
-        {
+        if (weatherMapGen.viewerEnabled) {
             debugModeIndex = 3;
         }
 
