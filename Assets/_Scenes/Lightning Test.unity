@@ -329,8 +329,8 @@ MonoBehaviour:
   MaxSpawnPos: {x: 100, y: 100, z: 100}
   SpawnProb: 0.05
   GroundZero: 0
-  MinAge: 20
-  MaxAge: 40
+  MinAge: 4
+  MaxAge: 5
   time: 0
   InitialBranchRadius: 1
   lightningMaterial: {fileID: 2100000, guid: 0a1dbea49aba04ccfaaa36b3a6e9930c, type: 2}

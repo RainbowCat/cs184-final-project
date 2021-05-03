@@ -21,6 +21,7 @@ public class LightningSegment : MonoBehaviour {
         Vector3 rotAxisV = Vector3.Normalize(direction + DefaultOrientation);
 
         cylinderObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        cylinderObject.GetComponent<MeshRenderer>().material = lightningMaterial;
         cylinderObject.transform.position = startPos + direction * length / 2.0f;
         cylinderObject.transform.rotation = new Quaternion(rotAxisV.x, rotAxisV.y, rotAxisV.z, 0);
         cylinderObject.transform.localScale = new Vector3(width * 0, length / 2.0f, width * 0);
