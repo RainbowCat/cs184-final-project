@@ -52,8 +52,8 @@ public class LightningBranch : MonoBehaviour {
     static float PropagationSpeed = 200.0f;
 
     // glow
-    static float MinGlowReductionFactor = 0.45f;
-    static float MaxGlowReductionFactor = 0.6f;
+    static float MinGlowReductionFactor = 0.85f;
+    static float MaxGlowReductionFactor = 0.95f;
 
     void initializeBranch(
         bool isMainChannel,
@@ -148,7 +148,7 @@ public class LightningBranch : MonoBehaviour {
                 if (isMainChannel) {
                     // becomes smaller and dies out if it's the main channel
                     childBranch.BranchWidth = childBranchWidthReductionFactor * BranchWidth;
-                    childBranch.lifeFactor = childBranchWidthReductionFactor * childBranchWidthReductionFactor * lifeFactor;
+                    childBranch.lifeFactor =  lifeFactor;
                 } else {
                     // the sub-branches has same params as the segment it branches out from
                     childBranch.BranchWidth = segments[i].width;
@@ -210,10 +210,11 @@ public class LightningBranch : MonoBehaviour {
         foreach (LightningBranch child in children) {
             child.destroyLightning();
         }
-        Destroy(this);
     }
 
     void OnDestroy() {
         destroyLightning();
+        Destroy(this);
+
     }
 }

@@ -24,11 +24,11 @@ public class LightningSegment : MonoBehaviour {
         cylinderObject.GetComponent<MeshRenderer>().material = lightningMaterial;
         cylinderObject.transform.position = startPos + direction * length / 2.0f;
         cylinderObject.transform.rotation = new Quaternion(rotAxisV.x, rotAxisV.y, rotAxisV.z, 0);
-        cylinderObject.transform.localScale = new Vector3(width * 0, length / 2.0f, width * 0);
+        cylinderObject.transform.localScale = new Vector3(0, length / 2.0f, 0);
     }
 
     public void setBrightness(float newBrightness) {
-        cylinderObject.transform.localScale = new Vector3(width * newBrightness, length / 2.0f, width * newBrightness); // changes width of cylinder, for now
+        cylinderObject.transform.localScale = new Vector3(width * newBrightness, length / 2.0f, width * newBrightness);
     }
 
     /** Unity **/
@@ -38,11 +38,11 @@ public class LightningSegment : MonoBehaviour {
 
     public void destroySegment() {
         Destroy(cylinderObject);
-        Destroy(this);
     }
 
     void OnDestroy() {
         destroySegment();
+        Destroy(this);
     }
 }
 
