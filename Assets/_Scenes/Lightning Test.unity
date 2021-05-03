@@ -332,7 +332,7 @@ MonoBehaviour:
   MinAge: 4
   MaxAge: 5
   time: 0
-  InitialBranchRadius: 1
+  InitialBranchRadius: 0.5
   lightningMaterial: {fileID: 2100000, guid: 0a1dbea49aba04ccfaaa36b3a6e9930c, type: 2}
   randomSeed: 0
 --- !u!4 &2094465556
