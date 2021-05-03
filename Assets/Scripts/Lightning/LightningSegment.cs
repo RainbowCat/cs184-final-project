@@ -41,8 +41,7 @@ public class LightningSegment : MonoBehaviour {
     }
 
     void OnDestroy() {
-        Destroy(cylinderObject);
-        Destroy(this);
+        destroySegment();
     }
 }
 

@@ -60,6 +60,7 @@ public class LightningMaster : MonoBehaviour {
             for (int i = 0; i < lightnings.Count; i++) {
                 LightningBranch lightning = lightnings[i];
                 if (Time.time > lightning.startTime + lightning.maxLifespan) {
+                    lightnings.RemoveAt(i);
                     lightning.destroyLightning();
                     i--;
                 } else {
@@ -72,6 +73,7 @@ public class LightningMaster : MonoBehaviour {
         } else {
             for (int i = 0; i < lightnings.Count; i++) {
                 LightningBranch lightning = lightnings[i];
+                lightnings.RemoveAt(i);
                 lightning.destroyLightning();
                 i--;
             }
