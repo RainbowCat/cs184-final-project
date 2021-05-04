@@ -22,7 +22,7 @@ public class LightningMaster : MonoBehaviour {
     List<LightningBranch> lightnings = new List<LightningBranch>();
 
     void generateLightningBolt() {
-        LightningBranch lightningStrike = gameObject.AddComponent<LightningBranch>() as LightningBranch;
+        LightningBranch lightningStrike = new LightningBranch();
         lightningStrike.isMainChannel = true;
         lightningStrike.startPos = LightningUtils.randomVec3(MinSpawnPos, MaxSpawnPos, prng);
         lightningStrike.startTime = Time.time;
