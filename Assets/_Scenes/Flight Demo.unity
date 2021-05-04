@@ -302,6 +302,41 @@ Transform:
   m_Father: {fileID: 1840117143}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &84443355
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DetailNoise
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 64
+  m_Height: 64
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 0
+  m_ColorFormat: 24
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 3
+  m_VolumeDepth: 64
 --- !u!1 &157790471
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +509,41 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 364206895}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &285979955
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ShapeNoise
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 132
+  m_Height: 132
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 0
+  m_ColorFormat: 24
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_Dimension: 3
+  m_VolumeDepth: 132
 --- !u!4 &308471513 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 577ef30396f3e442e8e0348f9381bdff,
@@ -800,7 +870,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414724918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65, y: 86, z: 767}
+  m_LocalPosition: {x: -200, y: 40, z: -200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4563114451573410}
@@ -1333,8 +1403,8 @@ MonoBehaviour:
   viewerTileAmount: 1
   viewerSize: 0.35
   showSettingsEditor: 1
-  shapeTexture: {fileID: 2014698589}
-  detailTexture: {fileID: 1291125532}
+  shapeTexture: {fileID: 285979955}
+  detailTexture: {fileID: 84443355}
 --- !u!4 &847781466
 Transform:
   m_ObjectHideFlags: 0
@@ -1379,41 +1449,6 @@ Transform:
   m_Father: {fileID: 681233444}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &1134138136
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Weather Map
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  serializedVersion: 3
-  m_Width: 512
-  m_Height: 512
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthFormat: 0
-  m_ColorFormat: 24
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 512
 --- !u!1 &1230604921
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,41 +1494,6 @@ Transform:
   m_Father: {fileID: 1331973712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &1291125532
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: DetailNoise
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  serializedVersion: 3
-  m_Width: 64
-  m_Height: 64
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthFormat: 0
-  m_ColorFormat: 24
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 0
-    m_WrapV: 0
-    m_WrapW: 0
-  m_Dimension: 3
-  m_VolumeDepth: 64
 --- !u!1 &1328418213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,7 +1762,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1840117142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -50, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 61960994}
@@ -1791,6 +1791,41 @@ MonoBehaviour:
   elevatorMax: 20
   rudder: {fileID: 2019913862}
   rudderMax: 20
+--- !u!84 &1888017133
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Weather Map
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  serializedVersion: 3
+  m_Width: 512
+  m_Height: 512
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthFormat: 0
+  m_ColorFormat: 24
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 512
 --- !u!1 &1903968547
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,7 +1859,7 @@ MonoBehaviour:
   noiseCompute: {fileID: 7200000, guid: 610906fb135f245baaa76a04f34d7c24, type: 3}
   noiseSettings: {fileID: 11400000, guid: 509d54ed5f587459d99d1fc47b5d1459, type: 2}
   resolution: 512
-  weatherMap: {fileID: 1134138136}
+  weatherMap: {fileID: 1888017133}
   testParams: {x: 0, y: 1, z: 1, w: 0}
   container: {fileID: 1230604923}
   viewerEnabled: 0
@@ -1887,8 +1922,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e2ad39139414523afb094fb09e92ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawnPos: {x: -1000, y: 150, z: -1000}
-  MaxSpawnPos: {x: 1000, y: 180, z: 1000}
+  MinSpawnPos: {x: -200, y: 150, z: -200}
+  MaxSpawnPos: {x: 200, y: 180, z: 200}
   SpawnProb: 0.2
   GroundZero: 0
   MinAge: 4
@@ -1897,41 +1932,6 @@ MonoBehaviour:
   InitialBranchRadius: 0.5
   lightningMaterial: {fileID: 2100000, guid: 0a1dbea49aba04ccfaaa36b3a6e9930c, type: 2}
   randomSeed: 0
---- !u!84 &2014698589
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: ShapeNoise
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  serializedVersion: 3
-  m_Width: 132
-  m_Height: 132
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthFormat: 0
-  m_ColorFormat: 24
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 0
-    m_WrapV: 0
-    m_WrapW: 0
-  m_Dimension: 3
-  m_VolumeDepth: 132
 --- !u!4 &2019913862 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7364355780404404885, guid: 577ef30396f3e442e8e0348f9381bdff,
@@ -2320,8 +2320,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630318330911044}
-  m_LocalRotation: {x: -0, y: -0.92024827, z: -0, w: -0.391335}
-  m_LocalPosition: {x: -464.3, y: 39.4, z: -593.2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4844328603125190}
@@ -2330,7 +2330,7 @@ Transform:
   - {fileID: 308471513}
   m_Father: {fileID: 414724919}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -226.075, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4614795025184420
 Transform:
   m_ObjectHideFlags: 0
@@ -2338,15 +2338,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1340265131733852}
-  m_LocalRotation: {x: -0, y: -0.92024827, z: -0, w: -0.391335}
-  m_LocalPosition: {x: -464.3, y: 39.4, z: -593.2001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4145332501450166}
   - {fileID: 4543349483637654}
   m_Father: {fileID: 414724919}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -226.075, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4696853951868904
 Transform:
   m_ObjectHideFlags: 0
@@ -2355,7 +2355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411132677217082}
   m_LocalRotation: {x: 0.0888943, y: 0, z: 0, w: 0.9960411}
-  m_LocalPosition: {x: -1000, y: 0, z: -1000}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
