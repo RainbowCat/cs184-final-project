@@ -32,16 +32,16 @@ public class LightningSegment : MonoBehaviour {
     }
 
     /** Unity **/
-    void Start() {}
+    void Start() { }
 
     public void destroySegment() {
         Object.Destroy(cylinderObject);
-        Object.Destroy(this);
+        Object.Destroy(this); // Removes this script instance from the game object
     }
 
     void OnDestroy() {
         destroySegment();
-        
+
     }
 }
 

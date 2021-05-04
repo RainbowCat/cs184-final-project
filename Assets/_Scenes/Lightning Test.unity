@@ -325,8 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e2ad39139414523afb094fb09e92ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinSpawnPos: {x: -100, y: 80, z: -100}
-  MaxSpawnPos: {x: 100, y: 100, z: 100}
+  MinSpawnPos: {x: -100, y: 150, z: -100}
+  MaxSpawnPos: {x: 100, y: 180, z: 100}
   SpawnProb: 0.05
   GroundZero: 0
   MinAge: 4

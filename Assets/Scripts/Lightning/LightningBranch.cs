@@ -148,7 +148,7 @@ public class LightningBranch : MonoBehaviour {
                 if (isMainChannel) {
                     // becomes smaller and dies out if it's the main channel
                     childBranch.BranchWidth = childBranchWidthReductionFactor * BranchWidth;
-                    childBranch.lifeFactor =  lifeFactor;
+                    childBranch.lifeFactor = lifeFactor;
                 } else {
                     // the sub-branches has same params as the segment it branches out from
                     childBranch.BranchWidth = segments[i].width;
@@ -208,7 +208,7 @@ public class LightningBranch : MonoBehaviour {
         foreach (LightningBranch child in children) {
             child.destroyLightning();
         }
-        Object.Destroy(this);
+        Object.Destroy(this); // Removes this script instance from the game object
 
     }
 
