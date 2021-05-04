@@ -69,6 +69,7 @@ public class LightningMaster : MonoBehaviour {
             if (prng.NextDouble() < SpawnProb) {
                 generateLightningBolt();
             }
+            SpawnProb -= 0.003f;
         } else {
             for (int i = 0; i < lightnings.Count; i++) {
                 LightningBranch lightning = lightnings[i];
