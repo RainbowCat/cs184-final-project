@@ -75,7 +75,7 @@ public class LightningBranch : MonoBehaviour {
         this.lightningMaterial = material;
     }
 
-    void constructLightningBranch() {
+    public void constructLightningBranch() {
         // build main branch that reaches the ground
         buildBranch(prng);
 
@@ -194,8 +194,6 @@ public class LightningBranch : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        prng = new System.Random(randomSeed);
-        constructLightningBranch();
     }
 
     // Update is called once per frame
@@ -210,11 +208,11 @@ public class LightningBranch : MonoBehaviour {
         foreach (LightningBranch child in children) {
             child.destroyLightning();
         }
+        Object.Destroy(this);
+
     }
 
     void OnDestroy() {
         destroyLightning();
-        Destroy(this);
-
     }
 }

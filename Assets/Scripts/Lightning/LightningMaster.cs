@@ -34,7 +34,7 @@ public class LightningMaster : MonoBehaviour {
 
         lightningStrike.GroundZero = GroundZero;
         lightningStrike.lightningMaterial = lightningMaterial;
-
+        lightningStrike.constructLightningBranch();
         lightnings.Add(lightningStrike);
 
     }
@@ -61,7 +61,7 @@ public class LightningMaster : MonoBehaviour {
                 LightningBranch lightning = lightnings[i];
                 if (Time.time > lightning.startTime + lightning.maxLifespan) {
                     lightnings.RemoveAt(i);
-                    Destroy(lightning);
+                    lightning.destroyLightning();
                     i--;
                 } else {
                     lightning.lightningStrokeFlicker(Time.time);
@@ -74,7 +74,7 @@ public class LightningMaster : MonoBehaviour {
             for (int i = 0; i < lightnings.Count; i++) {
                 LightningBranch lightning = lightnings[i];
                 lightnings.RemoveAt(i);
-                Destroy(lightning);
+                lightning.destroyLightning();
                 i--;
             }
         }
