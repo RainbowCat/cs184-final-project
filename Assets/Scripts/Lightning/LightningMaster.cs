@@ -11,9 +11,8 @@ public class LightningMaster : MonoBehaviour {
     public float SpawnProb;
 
     public float GroundZero;
-    public int MinAge; // in number of frames 20
-    public int MaxAge; // in number of frames 40
-    public int time = 0;
+    public float MinAge; 
+    public float MaxAge;
     public float InitialBranchRadius;
     public Material lightningMaterial;
     public int randomSeed = 0;
