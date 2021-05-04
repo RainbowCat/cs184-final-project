@@ -4,7 +4,7 @@ using UnityEngine;
 
 // lightning prefab
 
-public class LightningSegment : MonoBehaviour {
+public class LightningSegment {
     /** adjustable parameters **/
     public Vector3 startPos;
     public Vector3 direction;
@@ -31,17 +31,8 @@ public class LightningSegment : MonoBehaviour {
         cylinderObject.transform.localScale = new Vector3(width * newBrightness, length / 2.0f, width * newBrightness);
     }
 
-    /** Unity **/
-    void Start() { }
-
     public void destroySegment() {
         Object.Destroy(cylinderObject);
-        Object.Destroy(this); // Removes this script instance from the game object
-    }
-
-    void OnDestroy() {
-        destroySegment();
-
     }
 }
 

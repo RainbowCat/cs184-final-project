@@ -4,7 +4,7 @@ using UnityEngine;
 using CustomUtils;
 
 // A lightning branch is a list of segments that are chained to form one line
-public class LightningBranch : MonoBehaviour {
+public class LightningBranch {
     /** constants **/
     static float DirectionMean = 0.179f;
     static float DirectionVariance = 0.1f;
@@ -39,7 +39,7 @@ public class LightningBranch : MonoBehaviour {
 
     // apperance
     public float BranchWidth;
-    static float BranchSegmentWidthReductionFactor = 0.95f;
+    static float BranchSegmentWidthReductionFactor = 0.99f;
     public Material lightningMaterial;
 
     // animation
@@ -94,7 +94,7 @@ public class LightningBranch : MonoBehaviour {
         // make new segments if haven't reach the ground
         int count = 0;
         while (currStartPos.y > GroundZero && (isMainChannel || segments.Count < MaxNumSegments)) {
-            LightningSegment currSeg = gameObject.AddComponent<LightningSegment>() as LightningSegment;
+            LightningSegment currSeg = new LightningSegment();
 
             // initialize params of current segment
             currSeg.startPos = currStartPos;
@@ -128,7 +128,7 @@ public class LightningBranch : MonoBehaviour {
         for (int i = 1; i < segments.Count; i++) {
             // create sub-branch if conditions satisfied
             if ((float) (prng.NextDouble()) < perSegmentBranchProb && depth < maxDepth) {
-                LightningBranch childBranch = gameObject.AddComponent<LightningBranch>() as LightningBranch;
+                LightningBranch childBranch = new LightningBranch();
 
                 // initialize params of current sub-branch
                 childBranch.isMainChannel = false;
@@ -172,7 +172,6 @@ public class LightningBranch : MonoBehaviour {
         if (isMainChannel) {
             brightness += ReturnStrokeVariance + Mathf.Pow(ReturnStrokeDecayFactor, percentAge) * Mathf.Sin((2 * numReturnStrokes + 1) * Mathf.PI * percentAge);
         }
-        // exp is designed to ensure continuity at percentAge = 1 -> brightness = 0 
         return brightness * lifeFactor;
     }
 
@@ -192,14 +191,6 @@ public class LightningBranch : MonoBehaviour {
 
     /** Unity **/
 
-    // Start is called before the first frame update
-    void Start() {
-    }
-
-    // Update is called once per frame
-    void Update() {
-    }
-
     // Deconstructor
     public void destroyLightning() {
         foreach (LightningSegment segment in segments) {
@@ -208,11 +199,5 @@ public class LightningBranch : MonoBehaviour {
         foreach (LightningBranch child in children) {
             child.destroyLightning();
         }
-        Object.Destroy(this); // Removes this script instance from the game object
-
-    }
-
-    void OnDestroy() {
-        destroyLightning();
     }
 }
