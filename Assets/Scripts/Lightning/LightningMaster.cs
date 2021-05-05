@@ -6,16 +6,18 @@ using CustomUtils;
 public class LightningMaster : MonoBehaviour {
 
     // spawning is ignored for now, just try to generate one single lightning
-    public Vector3 MinSpawnPos;
-    public Vector3 MaxSpawnPos;
+    public Vector3 MinSpawnPos = new Vector3(-800.0f, 0.0f, -800.0f);
+    public Vector3 MaxSpawnPos = new Vector3(2000.0f, 0.0f, 2000.0f);
     public float SpawnProb;
 
     public float GroundZero;
-    public float MinAge; 
+    public float MinAge;
     public float MaxAge;
     public float InitialBranchRadius;
     public Material lightningMaterial;
     public int randomSeed = 0;
+
+    public float base_rate;
 
     System.Random prng;
     List<LightningBranch> lightnings = new List<LightningBranch>();
@@ -29,7 +31,7 @@ public class LightningMaster : MonoBehaviour {
 
         lightningStrike.lifeFactor = 1;
         lightningStrike.maxLifespan = prng.Next() % (MaxAge - MinAge) + MinAge;
-        lightningStrike.numReturnStrokes = prng.Next() % 3 + 1;
+        lightningStrike.numReturnStrokes = prng.Next() % 3;
 
         lightningStrike.GroundZero = GroundZero;
         lightningStrike.lightningMaterial = lightningMaterial;
@@ -44,6 +46,7 @@ public class LightningMaster : MonoBehaviour {
     public void Start() {
         prng = new System.Random(randomSeed);
         LightningBranch.prng = prng;
+        base_rate = 0.001f;
         // generateLightningBolt();
     }
 
@@ -54,7 +57,7 @@ public class LightningMaster : MonoBehaviour {
 
     // Update is called once per frame
     public void Update() {
-        if (Time.time % period < stay_time) {
+        if (Time.time < stay_time + transition_time) { // stage 1 + 2
             for (int i = 0; i < lightnings.Count; i++) {
                 LightningBranch lightning = lightnings[i];
                 if (Time.time > lightning.startTime + lightning.maxLifespan) {
@@ -68,7 +71,10 @@ public class LightningMaster : MonoBehaviour {
             if (prng.NextDouble() < SpawnProb) {
                 generateLightningBolt();
             }
-            SpawnProb -= 0.003f;
+            if (Time.time > stay_time) {
+                SpawnProb -= base_rate;
+                base_rate *= 1.1f;
+            }
         } else {
             for (int i = 0; i < lightnings.Count; i++) {
                 LightningBranch lightning = lightnings[i];

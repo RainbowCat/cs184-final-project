@@ -115,7 +115,7 @@ public class LightningBranch {
 
             // update
             currStartPos = currSeg.startPos + currSeg.length * currSeg.direction;
-            currDir = LightningUtils.generateUniformDirection(startDir, MinSegmentAngle, MaxSegmentAngle, prng);
+            currDir = LightningUtils.generateNormalDirection(startDir, DirectionMean, DirectionVariance, prng);
             count++;
         }
     }
@@ -134,7 +134,7 @@ public class LightningBranch {
                 childBranch.isMainChannel = false;
                 childBranch.depth = depth + 1;
                 childBranch.startPos = segments[i].startPos; // branch out from the tip of ith segment of THIS branch
-                childBranch.startDir = LightningUtils.generateNormalDirection(startDir, DirectionMean, DirectionVariance, prng);
+                childBranch.startDir = LightningUtils.generateUniformDirection(startDir, MinSegmentAngle, MaxSegmentAngle, prng);
 
                 // inherit parameters from parent branch, i.e. THIS branch
                 childBranch.branchProb = branchProb;

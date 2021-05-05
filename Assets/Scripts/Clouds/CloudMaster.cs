@@ -118,20 +118,16 @@ public class CloudMaster : MonoBehaviour {
     }
 
     void Update() {
-        if (Time.time % period < stay_time) // stage 1
-        {
+        if (Time.time % period < stay_time) { // stage 1
             setToStormy();
             return;
         }
-
-        if (Time.time % period > stay_time + transition_time && Time.time % period < stay_time * 2 + transition_time) // stage 4
-        {
+        if (Time.time % period > stay_time + transition_time
+            && Time.time % period < stay_time * 2 + transition_time) { // stage 4
             setToSunny();
             return;
         }
-
-        if (currentWeather == WeatherStage.Stormy) // stage 2
-        {
+        if (currentWeather == WeatherStage.Stormy) { // stage 2
             // towards sunny
             cloudScale -= scaleStep * Time.deltaTime;
             densityMultiplier -= densityStep * Time.deltaTime;
@@ -148,8 +144,7 @@ public class CloudMaster : MonoBehaviour {
                 setToSunny();
                 currentWeather = WeatherStage.Sunny;
             }
-        } else // stage 3
-          {
+        } else { // stage 3
             // towards stormy
             cloudScale += scaleStep * Time.deltaTime;
             densityMultiplier += densityStep * Time.deltaTime;
