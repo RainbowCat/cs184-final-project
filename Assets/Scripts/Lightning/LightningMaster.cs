@@ -54,7 +54,6 @@ public class LightningMaster : MonoBehaviour {
 
     // Update is called once per frame
     public void Update() {
-        // time += 1;
         if (Time.time % period < stay_time) {
             for (int i = 0; i < lightnings.Count; i++) {
                 LightningBranch lightning = lightnings[i];

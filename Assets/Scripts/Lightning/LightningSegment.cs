@@ -13,6 +13,8 @@ public class LightningSegment {
     public Material lightningMaterial;
     Vector3 DefaultOrientation = Vector3.up;
     public int segmentNumber;
+
+    private Color color;
     public GameObject cylinderObject; // the cylinder game object in Unity that represents THIS segment
 
     public void createSegment() {
@@ -22,13 +24,17 @@ public class LightningSegment {
 
         cylinderObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         cylinderObject.GetComponent<MeshRenderer>().material = lightningMaterial;
+        color = lightningMaterial.GetColor("_EmissionColor");
         cylinderObject.transform.position = startPos + direction * length / 2.0f;
         cylinderObject.transform.rotation = new Quaternion(rotAxisV.x, rotAxisV.y, rotAxisV.z, 0);
         cylinderObject.transform.localScale = new Vector3(0, length / 2.0f, 0);
     }
 
     public void setBrightness(float newBrightness) {
-        cylinderObject.transform.localScale = new Vector3(width * newBrightness, length / 2.0f, width * newBrightness);
+        Color newColor = Mathf.Min(newBrightness, 0.7f) * color;
+        cylinderObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", newColor);
+        cylinderObject.transform.localScale = new Vector3(newBrightness, length / 2.0f, newBrightness);
+
     }
 
     public void destroySegment() {

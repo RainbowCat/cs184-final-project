@@ -47,9 +47,9 @@ public class LightningBranch {
     public float lifeFactor;
     public int numReturnStrokes;
     static float ReturnStrokeVariance = 0.3f; // determined via desmos
-    static float LightningDecayFactor = 3f; // determined via desmos
+    static float LightningDecayFactor = 2.5f; // determined via desmos
     static float ReturnStrokeDecayFactor = 0.15f; // determined via desmos
-    static float PropagationSpeed = 200.0f;
+    static float PropagationSpeed = 250.0f;
 
     // glow
     static float MinGlowReductionFactor = 0.85f;
