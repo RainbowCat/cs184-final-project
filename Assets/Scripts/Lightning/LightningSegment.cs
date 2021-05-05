@@ -31,10 +31,11 @@ public class LightningSegment {
     }
 
     public void setBrightness(float newBrightness) {
-        Color newColor = Mathf.Min(newBrightness, 0.7f) * color;
+        Color newColor = Mathf.Max(newBrightness, 0.4f) * color;
         cylinderObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", newColor);
 
-        cylinderObject.transform.localScale = new Vector3(newBrightness, length / 2.0f, newBrightness);
+        float newWidth = Mathf.Pow(newBrightness, 1.0f / 5.0f);
+        cylinderObject.transform.localScale = new Vector3(width * newBrightness, length / 2.0f, width * newBrightness);
     }
 
     public void destroySegment() {
