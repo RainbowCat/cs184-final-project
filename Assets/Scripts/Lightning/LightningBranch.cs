@@ -15,7 +15,7 @@ public class LightningBranch {
     public float GroundZero = 0.0f;
 
     // branch variables
-    public bool isMainChannel; // TODO change to non-variable?
+    public bool isMainChannel;
     public Vector3 startPos;
     public Vector3 startDir = Vector3.down;
     public float startTime;
@@ -43,37 +43,17 @@ public class LightningBranch {
     public Material lightningMaterial;
 
     // animation
-    public float maxLifespan;
+    public float Lifespan;
     public float lifeFactor;
     public int numReturnStrokes;
     static float ReturnStrokeVariance = 0.3f; // determined via desmos
-    static float LightningDecayFactor = 2.5f; // determined via desmos
+    static float LightningDecayFactor = 3.0f; // determined via desmos
     static float ReturnStrokeDecayFactor = 0.15f; // determined via desmos
-    static float PropagationSpeed = 250.0f;
+    static float PropagationSpeed = 220.0f;
 
     // glow
     static float MinGlowReductionFactor = 0.85f;
     static float MaxGlowReductionFactor = 0.95f;
-
-    void initializeBranch(
-        bool isMainChannel,
-        int depth,
-        float groundZero,
-        Vector3 startPos,
-        Vector3 startDir,
-        float startTime,
-        float lifespan,
-        Material material
-        ) {
-        this.isMainChannel = isMainChannel;
-        this.depth = depth;
-        this.GroundZero = groundZero;
-        this.startPos = startPos;
-        this.startDir = startDir;
-        this.startTime = startTime;
-        this.maxLifespan = lifespan;
-        this.lightningMaterial = material;
-    }
 
     public void constructLightningBranch() {
         // build main branch that reaches the ground
@@ -140,21 +120,20 @@ public class LightningBranch {
                 childBranch.branchProb = branchProb;
                 childBranch.GroundZero = GroundZero;
                 childBranch.startTime = startTime;
-                childBranch.maxLifespan = maxLifespan;
+                childBranch.Lifespan = Lifespan;
                 childBranch.lightningMaterial = lightningMaterial;
 
-                // FIXME: these equations are for glow, not cylinder radius
-                float childBranchWidthReductionFactor = LightningUtils.randomFloat(MinGlowReductionFactor, MaxGlowReductionFactor, prng);
+                // glow depends on width of branch
+                float childBranchGlowReductionFactor = LightningUtils.randomFloat(MinGlowReductionFactor, MaxGlowReductionFactor, prng);
                 if (isMainChannel) {
                     // becomes smaller and dies out if it's the main channel
-                    childBranch.BranchWidth = childBranchWidthReductionFactor * BranchWidth;
+                    childBranch.BranchWidth = childBranchGlowReductionFactor * BranchWidth;
                     childBranch.lifeFactor = lifeFactor;
                 } else {
                     // the sub-branches has same params as the segment it branches out from
                     childBranch.BranchWidth = segments[i].width;
                     childBranch.lifeFactor = lifeFactor;
                 }
-                // FIXME ends
                 childBranch.branchNumber = i;
                 childBranch.MaxNumSegments = segmentsMin + prng.Next() % (segmentsMax - segmentsMin);
                 childBranch.constructLightningBranch();
@@ -167,7 +146,7 @@ public class LightningBranch {
 
     float computeStrokeBrightness() {
         // sinusoidal decaying exponential for brightness
-        float percentAge = (float) age / maxLifespan;
+        float percentAge = (float) age / Lifespan;
         float brightness = Mathf.Exp(-LightningDecayFactor * percentAge);
         if (isMainChannel) {
             brightness += ReturnStrokeVariance + Mathf.Pow(ReturnStrokeDecayFactor, percentAge) * Mathf.Sin((2 * numReturnStrokes + 1) * Mathf.PI * percentAge);
