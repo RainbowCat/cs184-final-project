@@ -31,7 +31,7 @@ public class LightningMaster : MonoBehaviour {
 
         lightningStrike.LifeFactor = 1;
         lightningStrike.Lifespan = prng.Next() % (MaxAge - MinAge) + MinAge;
-        lightningStrike.numReturnStrokes = prng.Next() % 3;
+        lightningStrike.NumReturnStrokes = prng.Next() % 3;
 
         lightningStrike.GroundZero = GroundZero;
         lightningStrike.lightningMaterial = lightningMaterial;

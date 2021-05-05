@@ -22,7 +22,6 @@ public class LightningBranch {
     public float age = 0;
 
     // geometry
-
     List<LightningSegment> segments = new List<LightningSegment>();
     public int MaxNumSegments = 10;
     static float MinSegmentLength = 1f;
@@ -45,11 +44,11 @@ public class LightningBranch {
     // animation
     public float Lifespan;
     public float LifeFactor;
-    public int numReturnStrokes;
+    public int NumReturnStrokes;
     static float ReturnStrokeVariance = 0.3f; // determined via desmos
     static float LightningDecayFactor = 2.5f; // determined via desmos
     static float ReturnStrokeDecayFactor = 0.15f; // determined via desmos
-    static float PropagationSpeed = 220.0f;
+    static float AgeToSegNumConversion = 220.0f; // used for top-down brightness propagation
 
     // glow
     static float MinGlowReductionFactor = 0.85f;
@@ -149,7 +148,7 @@ public class LightningBranch {
         float percentAge = (float) age / Lifespan;
         float brightness = Mathf.Exp(-LightningDecayFactor * percentAge);
         if (isMainChannel) {
-            brightness += ReturnStrokeVariance + Mathf.Pow(ReturnStrokeDecayFactor, percentAge) * Mathf.Sin((2 * numReturnStrokes + 1) * Mathf.PI * percentAge);
+            brightness += ReturnStrokeVariance + Mathf.Pow(ReturnStrokeDecayFactor, percentAge) * Mathf.Sin((2 * NumReturnStrokes + 1) * Mathf.PI * percentAge);
         }
         return brightness * LifeFactor;
     }
@@ -159,7 +158,7 @@ public class LightningBranch {
         float brightness = computeStrokeBrightness();
 
         foreach (LightningSegment seg in segments) {
-            if (age * PropagationSpeed > seg.segmentNumber) {
+            if (age * AgeToSegNumConversion > seg.segmentNumber) {
                 seg.setBrightness(brightness);
             }
         }
