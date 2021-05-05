@@ -39,7 +39,7 @@ public class LightningBranch {
 
     // apperance
     public float BranchWidth;
-    static float BranchSegmentWidthReductionFactor = 0.99f;
+    static float BranchSegmentWidthReductionFactor = 0.95f;
     public Material lightningMaterial;
 
     // animation

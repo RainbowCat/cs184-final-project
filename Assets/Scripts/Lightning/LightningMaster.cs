@@ -6,9 +6,10 @@ using CustomUtils;
 public class LightningMaster : MonoBehaviour {
 
     // spawning is ignored for now, just try to generate one single lightning
-    public Vector3 MinSpawnPos = new Vector3(-800.0f, 0.0f, -800.0f);
-    public Vector3 MaxSpawnPos = new Vector3(2000.0f, 0.0f, 2000.0f);
+    public Vector3 MinSpawnPos = new Vector3(-800.0f, 150.0f, -800.0f);
+    public Vector3 MaxSpawnPos = new Vector3(2000.0f, 180.0f, 2000.0f);
     public float SpawnProb;
+    public float PlaneSpeed = 10.0f;
 
     public float GroundZero;
     public float MinAge;
@@ -57,6 +58,8 @@ public class LightningMaster : MonoBehaviour {
 
     // Update is called once per frame
     public void Update() {
+        MinSpawnPos += new Vector3(PlaneSpeed, 0, PlaneSpeed); // optimization: don't spawn lightning behind plane
+
         if (Time.time < stay_time + transition_time) { // stage 1 + 2
             for (int i = 0; i < lightnings.Count; i++) {
                 LightningBranch lightning = lightnings[i];
