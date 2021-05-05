@@ -44,10 +44,10 @@ public class LightningBranch {
 
     // animation
     public float Lifespan;
-    public float lifeFactor;
+    public float LifeFactor;
     public int numReturnStrokes;
     static float ReturnStrokeVariance = 0.3f; // determined via desmos
-    static float LightningDecayFactor = 3.0f; // determined via desmos
+    static float LightningDecayFactor = 2.5f; // determined via desmos
     static float ReturnStrokeDecayFactor = 0.15f; // determined via desmos
     static float PropagationSpeed = 220.0f;
 
@@ -128,11 +128,11 @@ public class LightningBranch {
                 if (isMainChannel) {
                     // becomes smaller and dies out if it's the main channel
                     childBranch.BranchWidth = childBranchGlowReductionFactor * BranchWidth;
-                    childBranch.lifeFactor = lifeFactor;
+                    childBranch.LifeFactor = LifeFactor;
                 } else {
                     // the sub-branches has same params as the segment it branches out from
                     childBranch.BranchWidth = segments[i].width;
-                    childBranch.lifeFactor = lifeFactor;
+                    childBranch.LifeFactor = LifeFactor;
                 }
                 childBranch.branchNumber = i;
                 childBranch.MaxNumSegments = segmentsMin + prng.Next() % (segmentsMax - segmentsMin);
@@ -151,7 +151,7 @@ public class LightningBranch {
         if (isMainChannel) {
             brightness += ReturnStrokeVariance + Mathf.Pow(ReturnStrokeDecayFactor, percentAge) * Mathf.Sin((2 * numReturnStrokes + 1) * Mathf.PI * percentAge);
         }
-        return brightness * lifeFactor;
+        return brightness * LifeFactor;
     }
 
     public void lightningStrokeFlicker(float currTime) {

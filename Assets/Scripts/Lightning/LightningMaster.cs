@@ -10,7 +10,7 @@ public class LightningMaster : MonoBehaviour {
     public Vector3 MaxSpawnPos = new Vector3(2000.0f, 180.0f, 2000.0f);
     public float SpawnProb;
     public float SpawnReductionRate = 0.001f;
-    static float PlaneSpeed = 10.0f;
+    public float PlaneSpeed = 10.0f;
 
     public float GroundZero;
     public float MinAge;
@@ -29,7 +29,7 @@ public class LightningMaster : MonoBehaviour {
         lightningStrike.startTime = Time.time;
         lightningStrike.BranchWidth = InitialBranchRadius;
 
-        lightningStrike.lifeFactor = 1;
+        lightningStrike.LifeFactor = 1;
         lightningStrike.Lifespan = prng.Next() % (MaxAge - MinAge) + MinAge;
         lightningStrike.numReturnStrokes = prng.Next() % 3;
 
