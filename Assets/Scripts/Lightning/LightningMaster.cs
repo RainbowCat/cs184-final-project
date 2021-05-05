@@ -84,4 +84,13 @@ public class LightningMaster : MonoBehaviour {
             }
         }
     }
+
+    public void OnDestroy() {
+        for (int i = 0; i < lightnings.Count; i++) {
+            LightningBranch lightning = lightnings[i];
+            lightnings.RemoveAt(i);
+            lightning.destroyLightning();
+            i--;
+        }
+    }
 }

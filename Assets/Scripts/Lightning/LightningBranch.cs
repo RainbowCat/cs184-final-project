@@ -179,4 +179,8 @@ public class LightningBranch {
             child.destroyLightning();
         }
     }
+
+    public void OnDestroy() {
+        destroyLightning();
+    }
 }
