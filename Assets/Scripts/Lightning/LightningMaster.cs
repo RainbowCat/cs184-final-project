@@ -56,8 +56,8 @@ public class LightningMaster : MonoBehaviour {
     // Update is called once per frame
     public void Update() {
         // optimization: don't spawn lightning behind plane
-        MinSpawnPos += new Vector3(PlaneSpeed, 0, PlaneSpeed);
-        MaxSpawnPos += new Vector3(PlaneSpeed, 0, PlaneSpeed);
+        MinSpawnPos += new Vector3(0, 0, -PlaneSpeed);
+        MaxSpawnPos += new Vector3(0, 0, -PlaneSpeed);
 
         if (Time.time < stay_time + transition_time) { // stage 1 + 2
             for (int i = 0; i < lightnings.Count; i++) {
