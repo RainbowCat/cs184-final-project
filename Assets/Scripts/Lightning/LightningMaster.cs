@@ -73,9 +73,9 @@ public class LightningMaster : MonoBehaviour {
             if (prng.NextDouble() < SpawnProb) {
                 generateLightningBolt();
             }
-            if (Time.time > stay_time) {
+            if (Time.time > stay_time * 0.75f && SpawnProb > 0.0f) {
                 SpawnProb -= SpawnReductionRate;
-                SpawnReductionRate *= 1.1f;
+                SpawnReductionRate *= 1.06f;
             }
         } else {
             for (int i = 0; i < lightnings.Count; i++) {
