@@ -53,7 +53,7 @@ public class LightningMaster : MonoBehaviour {
     }
 
     // match with CloudMaster
-    static float transition_time = 20;
+    static float transition_time = 10.0f;
     static float stay_time = 10.0f;
     static float period = transition_time * 2 + stay_time * 2;
 

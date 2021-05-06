@@ -74,7 +74,7 @@ public class CloudMaster : MonoBehaviour {
     Color color_grey = new Color(0.25f, 0.25f, 0.25f, 1.0f);
 
     // match with LightningMaster
-    static float transition_time = 20;
+    static float transition_time = 10.0f;
     static float stay_time = 10.0f;
     static float period = transition_time * 2 + stay_time * 2;
 
