@@ -34,7 +34,7 @@ public class LightningSegment {
         Color newColor = Mathf.Max(newBrightness, 0.4f) * color;
         cylinderObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", newColor);
 
-        float newWidth = Mathf.Pow(newBrightness, 1.0f / 5.0f);
+        float newWidth = Mathf.Pow(newBrightness, 1.0f / 2.0f);
         cylinderObject.transform.localScale = new Vector3(width * newBrightness, length / 2.0f, width * newBrightness);
     }
 

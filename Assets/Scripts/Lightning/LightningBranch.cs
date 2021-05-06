@@ -24,9 +24,9 @@ public class LightningBranch {
     // geometry
     List<LightningSegment> segments = new List<LightningSegment>();
     public int MaxNumSegments = 10;
-    static float MinSegmentLength = 2f;
+    static float MinSegmentLength = 4f;
     static float MaxSegmentLength = 7.5f;
-    static float MinSegmentAngle = 0.18f;
+    static float MinSegmentAngle = 0.25f;
     static float MaxSegmentAngle = 0.75f;
     public int segmentsMax = 20;
     public int segmentsMin = 10;

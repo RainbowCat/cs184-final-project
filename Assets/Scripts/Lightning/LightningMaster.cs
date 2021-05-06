@@ -15,6 +15,9 @@ public class LightningMaster : MonoBehaviour {
     public float GroundZero;
     public float MinAge;
     public float MaxAge;
+
+    static float MinSegmentAngle = 0.25f;
+    static float MaxSegmentAngle = 0.75f;
     public float InitialBranchRadius;
     public Material lightningMaterial;
     public int randomSeed = 0;
@@ -26,6 +29,7 @@ public class LightningMaster : MonoBehaviour {
         LightningBranch lightningStrike = new LightningBranch();
         lightningStrike.isMainChannel = true;
         lightningStrike.startPos = LightningUtils.randomVec3(MinSpawnPos, MaxSpawnPos, prng);
+        lightningStrike.startDir = LightningUtils.generateUniformDirection(Vector3.down, MinSegmentAngle, MaxSegmentAngle, prng);
         lightningStrike.startTime = Time.time;
         lightningStrike.BranchWidth = InitialBranchRadius;
 
