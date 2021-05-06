@@ -88,13 +88,12 @@ public class LightningBranch {
             }
             currSeg.segmentNumber = branchNumber + count;
             currSeg.createSegment();
-
             // assign created segment to THIS branch
             segments.Add(currSeg);
 
             // update
             currStartPos = currSeg.startPos + currSeg.length * currSeg.direction;
-            currDir = LightningUtils.generateNormalDirection(startDir, DirectionMean, DirectionVariance, prng);
+            currDir = LightningUtils.generateNormalDirection(currDir + startDir, DirectionMean, DirectionVariance, prng);
             count++;
         }
     }
