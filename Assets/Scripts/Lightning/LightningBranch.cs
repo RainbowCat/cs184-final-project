@@ -24,15 +24,15 @@ public class LightningBranch {
     // geometry
     List<LightningSegment> segments = new List<LightningSegment>();
     public int MaxNumSegments = 10;
-    static float MinSegmentLength = 1f;
-    static float MaxSegmentLength = 2.5f;
+    static float MinSegmentLength = 2f;
+    static float MaxSegmentLength = 7.5f;
     static float MinSegmentAngle = 0.18f;
     static float MaxSegmentAngle = 0.75f;
     public int segmentsMax = 20;
     public int segmentsMin = 10;
     List<LightningBranch> children = new List<LightningBranch>();
     public int branchNumber = 0; // branch ID
-    public float branchProb = 0.05f; // initialize to no branching
+    public float branchProb = 0.07f; // initialize to no branching
     public int depth = 0;
     public int maxDepth = 5;
 
