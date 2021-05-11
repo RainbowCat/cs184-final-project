@@ -6,30 +6,30 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="style.css" rel="stylesheet" />
     <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+      </script>
   </head>
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-  </script>
-  <script type="text/javascript" id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-  </script>
+
+
+  <nav>
+    <a href="proposal.html">Proposal</a> |
+    <a href="milestone.html">Milestone</a> |
+    <a href="index.html">Final Report</a>
+  </nav>
+  <!-- end navbar -->
 
   <body>
-    <nav>
-      <!-- <a href="index.html">Home</a> | -->
-      <a href="proposal.html">Proposal</a> |
-      <a href="milestone.html">Milestone</a> |
-      <a href="index.html">Final Report</a>
-    </nav>
-    <!-- end navbar -->
-
     <header>
       <h1>CS 184: Computer Graphics and Imaging, Spring 2021</h1>
       <h1>Final Project: Weather Simulation</h1>
@@ -103,7 +103,8 @@
       <p>
         We used LightningBranch script to start from a main "trunk", and then recursively generate the branches.
         Then we used LightningSegment script to create a cylinder with a purple material to simulate a small segment
-        of the lightning given the starting point, length and direction. We are looking to replace this step with shader
+        of the lightning given the starting point, length and direction. We are looking to replace this step with
+        shader
         rendering
         in the future.
       </p>

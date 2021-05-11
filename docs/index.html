@@ -20,15 +20,15 @@
       </script>
   </head>
 
-  <body>
-    <nav>
-      <!-- <a href="index.html">Home</a> | -->
-      <a href="proposal.html">Proposal</a> |
-      <a href="milestone.html">Milestone</a> |
-      <a href="index.html">Final Report</a>
-    </nav>
-    <!-- end navbar -->
+  <nav>
+    <!-- <a href="index.html">Home</a> | -->
+    <a href="proposal.html">Proposal</a> |
+    <a href="milestone.html">Milestone</a> |
+    <a href="index.html">Final Report</a>
+  </nav>
+  <!-- end navbar -->
 
+  <body>
     <header>
       <h1>CS 184: Computer Graphics and Imaging, Spring 2021</h1>
       <h1>Final Project: Weather Simulation</h1>
@@ -45,6 +45,11 @@
         <li><a href="#overview">Abstract</a></li>
         <li><a href="#technical">Technical Apporach</a>
           <ul>
+            <li><a href="#geometry">Geometry</a></li>
+            <li><a href="#animation">Animation</a></li>
+            <li> <a href="#color"> Color and Material </li>
+            <li> <a href="#unity"> Unity Integration </li>
+            <li> <a href="#vr"> VR Integration </li>
             <li><a href="#challenges">Problems and Challenges</a></li>
           </ul>
         </li>
@@ -60,20 +65,27 @@
 
       <div class="section" id="overview">
         <h2>Abstract</h2>
-        <p>Our goal was to create a VR experience that helps people relax by incorporating nature elements. We worked on
+        <p>For our final project, we wanted to create a VR experience that helps people relax by incorporating nature
+          elements. In this
+          project, we were able to get a weather simulation that can transition between stormy and sunny days. The
+          project
+          is built on
           top of <a href="https://github.com/SebLague/Clouds" target="_blank" rel="noopener">this</a>
           cloud simulation done by <a href="https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ" target="_blank"
-            rel="noopener">Sebastian Lague</a> with Unity, and added lightning by mainly following <a
-            href="https://dl.acm.org/doi/10.1145/192161.192256">this SIGGRAPH paper</a>. With various parameter
-          tweaking, we
-          acheived some cool results.</p>
+            rel="noopener">Sebastian Lague</a> with Unity. Due to time constraints, our focus in this project was
+          simulating visually realistic lightning. It is done by mainy lightning by mainly following <a
+            href="https://dl.acm.org/doi/10.1145/192161.192256">this SIGGRAPH paper</a>. We generated our own algorithms
+          for branching and animation using the paper as a model, and with various parameter tweaking, we were able to
+          generate a stormy scene with lightning strikes.</p>
 
-        <div class="grid">
+        <div>TODO add video here</div>
+
+        <!-- <div class="grid">
           <div class="image">
             <img src="images/seblague.jpeg" />
             <figcaption>Demo Image from SebLague</figcaption>
           </div>
-        </div>
+        </div> -->
       </div><!-- END OVERVIEW -->
 
       <div class="section" id="technical">
@@ -87,6 +99,7 @@
         in the given time constraints we could not execute such a complicated design in real time in Unity, and we
         wanted to work with a game engine and
         deliver real time results. For this reason, we went with the approach outlined by the original SIGGRAPH paper.
+
 
         <h3 id="geometry">Geometry</h3>
         <p>
@@ -127,33 +140,55 @@
           starting vector of the first segment in a given branch. Then, for a segment $i$, its direction vector $v_i$,
           we have that $\angle (v_{i-1} + v_0), v_i$ is a normal random variable with mean $0.279$ radians and variance
           $0.1$. This differs from the SIGGRAPH paper, which just used $v_0$. We used $v_{i -1} + v_0$ since it alloww
-          lightning to meander more realistically while also having a bias towards the ground. The difference is
-          significant, and
-          can be seen below.
+          lightning to meander more realistically while also having a bias towards the ground. Initially, we followed
+          all
+          the numbers listed on the paper. The results were not bad, but the lightning was rather linear and straight
+          with little variation. Then after adding the change above, we also played around with
+          <code>segment_angle</code> and <code>max_depth</code> of lightning branches to achieve more zig-zagged
+          lightning. The difference is significant, and can be seen below.
+
+        <p>
         </p>
 
-        <p> For child branches, their initial segment was chosen to be between 0.25 and 0.75 radians with respect to the
+        <div class="grid">
+          <div class="image">
+            <img src="images/lightning2.gif" />
+            <!-- <figcaption>Demo Image from SebLague</figcaption> -->
+          </div>
+          <div class="image">
+            <img src="images/zigzag.gif" />
+            <!-- <figcaption>Demo Image from SebLague</figcaption> -->
+          </div>
+        </div>
+
+        <p> For child branches, their initial segment was chosen to be between 0.25 and 0.75 radians with respect to
+          the
           parent segment. Finally, the initial segment was chosen to have an angle of a random variable with mean
           $0.279$ and variance $0.1$ with respect to the down vector. This can be replaced with any vector that moves
           towards the ground component.
         </p>
-
         <p>
-          Finally, we needed to determine how the width of each lightning stroke changes. Since the width of the stroke
-          is also a factor in the glow of the branch, we right now only look at the maximum width. Since lightning sends
+          Finally, we needed to determine how the width of each lightning stroke changes. Since the width of the
+          stroke
+          is also a factor in the glow of the branch, we right now only look at the maximum width. Since lightning
+          sends
           most of its energy through the main channel, the width of each successive segment is the same throughout the
           stroke.
           For any child branches, the rules are different. Successive branches are $0.95$ the width of the previosu
           segment, and
           the initial branch is chosen uniformly to be between $0.85$ and $0.95$ the width of its parent segment.
         </p>
-
         <p>
           Other randomized components of lightning were the length of each segment, which was chosen to be between
           $0.04$ and $0.075$ of the distance
-          from the start and ending positions of the lightning. A GIF of the lightninggeometry is available below:
+          from the start and ending positions of the lightning. A GIF of the lightning geometry is available below:
         </p>
-
+        <div class="grid">
+          <div class="image">
+            <img src="images/geometry-demo.gif" />
+            <!-- <figcaption>Demo Image from SebLague</figcaption> -->
+          </div>
+        </div>
         <!-- end geometry -->
 
 
@@ -174,17 +209,77 @@
           </li>
         </ul>
 
-        In reality, no such visual progression exists, however we often percieve lightning as moving from the clouds to
+        In reality, no such visual progression exists, however we often percieve lightning as moving from the clouds
+        to
         the ground, and so it is best animated as such.
+        </p>
 
+        <h4> Visual Progression </h4>
+        <p>
+          For the visual progression, we decided to index each segment on the lightning branch and use that to
+          calculate
+          at what time it renders. For this we defined
+          a <b> propagation speed </b> variable that determines how "fast" the lightning bolt renders from top to
+          bottom.
+          In particular, if $p$ is the propagation speed of segment at index $i$ and $a$ is the age
+          then at every frame, we check if $p \cdot a > i$, and if it is, then we render that specfic segments. For
+          branch
+          segments, we simply set the initial index of the first segment to be equal to its parent
+          segment's index plus 1.
+        </p>
 
+        <h4> Decaying Stroke Brightness </h4>
+        <p>
+          For the decaying stroke brightness we used a combination of tricks. We first computed the brightness as an
+          exponentially decaying function that depends on the age of the lightning. In particular, if $m$ is the
+          maximum
+          age, and $a$ is its current age, then the brightness is:
 
+          $$c \exp \left( -\frac{ab}{m} \right) $$
+
+          where $c, b$ are tweaked constants.
+        </p>
+
+        <h4> Return Strokes </h4>
+
+        <p>
+          Lightning often flashes 1-3 times in visual effects called <b> return strokes </b>. To simulate this, we
+          added
+          a
+          decaying sinusoid to the exponential decay function for only the main channel. If the number of return
+          strokes
+          is $r$ and $a, m$ are
+          defined as they were before, then we add the following quantity to the decaying brightness:
+
+          $$ d f^{\frac{a}{m}} \sin \left( \frac{(2r + 1) \pi a}{m}\right) $$
+
+          where $d$ and $f$ are constants relating to the return stroke variance and the decay of the return strokes.
+          The $(2r + 1)$ term ensures that the
+          sinusoid repeats $r$ times before finally dying out.
         </p>
 
         <!-- end animation -->
 
 
         <h3 id="color"> Color and Material </h3>
+        <p>We first considered using emissive material, which can be achieved by just checking the emission checkbox
+          for
+          any material.
+          However, the resulting material doesn’t look glowy like we imagined. As shown on the bottom left.
+          We found out that you can download a “Post Processing Package” in Unity, which function kinda like a shader.
+          Then we add Post-processing Layer and Post-Processing Volume with Bloom effect to the main camera.
+          After that, we achieved the desired effect, as shown on the bottom right.
+        </p>
+        <div class="grid">
+          <div class="image">
+            <img src="images/not-glowy.jpg" />
+            <figcaption>Without glow material</figcaption>
+          </div>
+          <div class="image">
+            <img src="images/glowy.jpg" />
+            <figcaption>With glow material</figcaption>
+          </div>
+        </div>
         <div class="grid">
           <div class="image">
             <img src="images/lightning1.gif" />
@@ -192,7 +287,7 @@
           </div>
           <div class="image">
             <img src="images/lightning2.gif" />
-            <figcaption>With glow materiale</figcaption>
+            <figcaption>With glow material</figcaption>
           </div>
         </div>
         <!-- end color & material -->
@@ -201,40 +296,85 @@
         <p>For unity integration, we update the <code>update()</code> fucntion such that for every frame. The function
           will generate
           a new lightning with probability equal to global variable <code>SpawnProb</code>. The function also keeps
-          track of a list of all lightning, updating the animation of each lightning and removing it from the list when
+          track of a list of all lightning, updating the animation of each lightning and removing it from the list
+          when
           a lightning reaches the end of it's life cycle. During the transition phrases from stormy to sunny, we
-          decrement <code>SpawnProb</code> geometrically to slowly limit the number of lightning as the weather changes
+          decrement <code>SpawnProb</code> geometrically to slowly limit the number of lightning as the weather
+          changes
           and did a linear interpolation of the the
           parameter of the stormy clouds to sunny clouds to achieve a smooth transition.
         </p>
-        <!-- end unity -->
 
-        <h3 id="param-tweak"> Parameter Tweaking and Tricks </h3>
-        <p>Parameter tweaking took a lot of time. It was pretty tedious but made the biggest visual differences.</p>
-        <p>Initially, we followed all the numbers listed on the paper. The results were not bad, but the lightning were
-          rather linear and straight with little variation. Then, we played around with
-          <code>segment_angle</code> and <code>max_depth</code> of lightning branches to achieve more zig-zagged
-          lightning closer to the following image.
         <div class="grid">
           <div class="image">
-            <img src="images/target_lightning.png" />
+            <img src="images/flight_stormy.png" />
+            <!-- <figcaption>Without glow material</figcaption> -->
+          </div>
+          <div class="image">
+            <img src="images/flight_sunny.png" />
+            <!-- <figcaption>With glow materiale</figcaption> -->
+          </div>
+        </div>
+
+        <!-- end unity -->
+
+
+        <h3 id="vr"> VR Integration </h3>
+        <p>
+          Just to make things interesting, we also added a VR Camera Rig into the scene.
+          The following GIF shows one of our member moving from the perspective of the plane and the real time
+          rendering
+          of lightnings using the VR headset.
+        </p>
+        <div class="grid">
+          <div class="image">
+            <img src="images/vr-demo.gif" />
             <!-- <figcaption>Demo Image from SebLague</figcaption> -->
           </div>
         </div>
-        </p>
-        <!-- end parameter tweaking -->
+        <!--TODO ADD GIF of VR DEMO!!!-->
+        <!-- end vr -->
 
         <h3 id="challenges"> Problems and Challenges </h3>
-        <p>The main problem we encountered is that none of us know unity very well going into the
-          project. It took us a while to learn the structure of Unity as well as the basic syntax of C#. Another
-          challenges we encounted is that since we
-          are basing our project on someone else's code and building new features on top, the limited documentation
-          makes it harder to understand the
-          codebase
+        <p>
+          The main problem we encountered is that none of us know unity very well going into the
+          project. It took us a while to learn the structure of Unity as well as the basic syntax of
+          <code>C#</code>. There are probably a lot of ways we could have used compute shaders or rendering pipelines
+          in
+          Unity
+          that would have benefitted our project, and made the code run faster, however there wasn't a sufficient
+          amount
+          of time to understand
+          all of the moving components of shaders in Unity for this project. It also wasn't clear that using shaders
+          was
+          going to make a difference.
         </p>
+        <p>
+          Another challenges we encounted is that since we are basing our project on someone else's code and building
+          new features on top, the limited documentation makes it harder to understand the codebase. The only
+          documentation we really had was
+          a video explaining the project, and it was a bit difficult to understand some of the mechanics as well as
+          how
+          shaders were used to produce
+          the final results.
+        </p>
+        <p>
+          We also realized that the modeling of lightning is very subjective, and producing a realistic result
+          requires
+          a lot of parameter tweaking, even from the paper. The paper was often vague about processes such as
+          branching
+          probability, and animation, so we
+          had to tweak and come up with our own interesting techniques to simulate lightning. For this project, our
+          branching algorithm and the return stroke and brightness computation were
+          tweaked and enhanced by our own creativity.
+        </p>
+
+        <!-- end parameter tweaking -->
+
         <!-- end challenges -->
 
         <h3 id="lessons learned"> Lessons Learned </h3>
+        <p>Parameter tweaking took a lot of time. It was pretty tedious but made the biggest visual differences.</p>
         <p>We realize how hard it is to work off of someone else' code, especially when there is no documentation.</p>
         <!-- end lessons learned -->
 
@@ -244,14 +384,12 @@
       <div class="section" id="results">
         <h2>Results</h2>
         <p></p>
-        <div class="center">
-          <iframe
-            src="https://docs.google.com/presentation/d/e/2PACX-1vRMz3ntO6JF09mKCFyqfDP7OdXiOaM_T91VQE_CsBi3QWZsDVvlpFTYZsQkaHtIQ7yGDUKLpBVBQyJY/embed?start=false&loop=false&delayms=3000"
-            frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true"
-            webkitallowfullscreen="true"></iframe>
-          <video>
-            <source src="https://drive.google.com/file/d/1vG13-Gwm9Vft6Fseih7V8YyuYOsTn0u5/view?usp=sharing">
-          </video>
+        <div class="grid">
+          <div><iframe
+              src="https://docs.google.com/presentation/d/e/2PACX-1vSIDnFx1JNZq1WFdOcyBVqtIvsHE6E8vqkJdhRdHyX329lKkxDBuOy6DZmkHU5aHtlYFhI4v3YfotMj/embed?start=false&loop=false&delayms=3000"
+              frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true"
+              webkitallowfullscreen="true"></iframe></div>
+          <div>TODO add video</div>
         </div>
       </div><!-- END RESULTS -->
 
@@ -279,8 +417,24 @@
         <h2>Team Contributions</h2>
         <ul>
           <li>Ankit</li>
+          <p>For this project, Ankit coded up the majority of the mathematics related to the lightning strokes and the
+            geometry / animation portions of the project. He also assisted in the
+            creation of the slides and presentations as well as each deliverable by explaining the technical portion of
+            the lightning structure.</p>
+
           <li>April</li>
+          <p>April worked with Xin to create a smooth transition of cloud variables and sky color. She helped on
+            making the lightning geometry, and tweaking animations and other parameters. April also
+            managed the
+            project progress and
+            contributed to presentations,
+            slides, as well as other deliverables.</p>
+
           <li>Xinyun</li>
+          <p>For this project, Xin worked with April on the interpolation changes of the cloud variables and sky color.
+            Xin was also in charge of the glowy material and the post processing. She also added VR camera rig in the
+            scene and made the demo. She also helped with the presentation, slides and other deliverables.</p>
+
           <li>Austin</li>
         </ul>
       </div><!-- END CONTRIBUTION -->
