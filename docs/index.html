@@ -78,7 +78,10 @@
           for branching and animation using the paper as a model, and with various parameter tweaking, we were able to
           generate a stormy scene with lightning strikes.</p>
 
-        <div>TODO add video here</div>
+        <div class="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/DPCF51azU74"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe></div>
 
         <!-- <div class="grid">
           <div class="image">
@@ -193,7 +196,6 @@
 
 
         <h3 id="animation"> Animation </h3>
-
         <p>
           For animation, there were multiple components we wanted to model with regards to the lightning, namely:
 
@@ -293,17 +295,24 @@
         <!-- end color & material -->
 
         <h3 id="unity"> Unity Integration </h3>
-        <p>For unity integration, we update the <code>update()</code> fucntion such that for every frame. The function
+        <p>Using cylinder game objects to model lightning segments allowed us to integrate lightning animations in
+          Unity. First, we can assign a glowing material to them to make them look visually similar to lightning.
+          This also allows us to have variating brightness in a lightning strike.
+          On top of that, we can define the width of the cylinder to recreate the thinning effect.
+          The other effect is propagation, and all we had to do is number all branches and segments.
+        </p>
+        <p>To create a smooth transition between stormy and sunny weather, we use Unity's <code>Update()</code> function
+          that upadates per frame. The function
           will generate
           a new lightning with probability equal to global variable <code>SpawnProb</code>. The function also keeps
           track of a list of all lightning, updating the animation of each lightning and removing it from the list
           when
           a lightning reaches the end of it's life cycle. During the transition phrases from stormy to sunny, we
           decrement <code>SpawnProb</code> geometrically to slowly limit the number of lightning as the weather
-          changes
-          and did a linear interpolation of the the
-          parameter of the stormy clouds to sunny clouds to achieve a smooth transition.
+          changes.
         </p>
+        <p>We also did a linear interpolation of the the
+          parameter of the stormy clouds to sunny clouds to achieve a smooth transition.</p>
 
         <div class="grid">
           <div class="image">
@@ -312,10 +321,9 @@
           </div>
           <div class="image">
             <img src="images/flight_sunny.png" />
-            <!-- <figcaption>With glow materiale</figcaption> -->
+            <figcaption>With glow materiale</figcaption>
           </div>
         </div>
-
         <!-- end unity -->
 
 
@@ -332,7 +340,6 @@
             <!-- <figcaption>Demo Image from SebLague</figcaption> -->
           </div>
         </div>
-        <!--TODO ADD GIF of VR DEMO!!!-->
         <!-- end vr -->
 
         <h3 id="challenges"> Problems and Challenges </h3>
@@ -368,9 +375,6 @@
           branching algorithm and the return stroke and brightness computation were
           tweaked and enhanced by our own creativity.
         </p>
-
-        <!-- end parameter tweaking -->
-
         <!-- end challenges -->
 
         <h3 id="lessons learned"> Lessons Learned </h3>
@@ -383,13 +387,17 @@
 
       <div class="section" id="results">
         <h2>Results</h2>
-        <p></p>
+        <p>Here's our demo video and also checkout our<a
+            href="https://github.com/RainbowCat/cs184-final-project/settings">github repo :)</a></p>
         <div class="grid">
+          <div><iframe width="560" height="310" src="https://www.youtube.com/embed/CBNTRn4tvyY"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe></div>
           <div><iframe
               src="https://docs.google.com/presentation/d/e/2PACX-1vSIDnFx1JNZq1WFdOcyBVqtIvsHE6E8vqkJdhRdHyX329lKkxDBuOy6DZmkHU5aHtlYFhI4v3YfotMj/embed?start=false&loop=false&delayms=3000"
-              frameborder="0" width="480" height="299" allowfullscreen="true" mozallowfullscreen="true"
+              frameborder="0" width="560" height="325" allowfullscreen="true" mozallowfullscreen="true"
               webkitallowfullscreen="true"></iframe></div>
-          <div><iframe width="420" height="315" src="https://youtu.be/CBNTRn4tvyY?autoplay=1&mute=1"></div>
           </iframe>
         </div>
       </div><!-- END RESULTS -->
@@ -424,7 +432,8 @@
             the lightning structure.</p>
 
           <li>April</li>
-          <p>April worked with Xin to create a smooth transition of cloud variables and sky color. She helped on
+          <p>In this project, April worked with Xin to create a smooth transition of cloud variables and sky color. She
+            helped on
             making the lightning geometry, and tweaking animations and other parameters. April also
             managed the
             project progress and
@@ -437,6 +446,11 @@
             scene and made the demo. She also helped with the presentation, slides and other deliverables.</p>
 
           <li>Austin</li>
+          <p>For this project, Austin Worked with April to create a smooth transition from the stormy scene to sunny
+            scene. He also
+            assisted in tweaking animation parameters as well as the creation of the slides and presentations by
+            explaining
+            integration with unity.</p>
         </ul>
       </div><!-- END CONTRIBUTION -->
 
